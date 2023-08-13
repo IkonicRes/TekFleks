@@ -1,11 +1,16 @@
 const sequelize = require('../config/connection');
-const seedUsers = require('./user-seeds'); // Update with actual path to user-seeds
-const seedPosts = require('./post-seeds'); // Update with actual path to post-seeds
-const seedComments = require('./comment-seeds'); // Update with actual path to comment-seeds
+const seedTopics = require('./topic-seeds');
+const seedUsers = require('./user-seeds'); 
+const seedPosts = require('./post-seeds'); 
+const seedComments = require('./comment-seeds'); 
+
 
 const seedAll = async () => {
   await sequelize.sync({ force: true });
   console.log('\n----- DATABASE SYNCED -----\n');
+  
+  await seedTopics();
+  console.log('\n----- FORUMSS SEEDED -----\n');
 
   await seedUsers();
   console.log('\n----- USERS SEEDED -----\n');

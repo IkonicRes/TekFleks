@@ -1,17 +1,8 @@
-<section class="posts">
-    {{#each posts as |this|}}
-    <article class="post">
-        <p>{{this.content}}</p>
-        <button class="like-button">Like</button>
-        <button class="comment-button">Comment</button>
-        <div class="comments">
-            {{#each this.comments}}
-            <div class="comment">
-                <p>{{this.content}}</p>
-                <button class="like-button">Like</button>
-            </div>
-            {{/each}}
-        </div>
-    </article>
-    {{/each}}
-</section>
+    <section class="posts">
+        {{#each posts as |post|}}
+        <article class="post subsections">
+            <h2>Topic: {{post.topic.name}}</h2>
+            <p>{{post.text_content}}</p>
+        </article>
+        {{/each}}
+    </section>

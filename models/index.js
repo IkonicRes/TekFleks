@@ -1,16 +1,14 @@
 // import models
+const Topic = require('./Topic');
 const User = require('./User');
 const Post = require('./Post');
 const Comment = require('./Comment');
 
-Forum.hasMany(Thread, { foreignKey: 'forum_id' });
-Thread.belongsTo(Forum, { foreignKey: 'forum_id' });
+Topic.hasMany(Post, { foreignKey: 'id' });
 
-Thread.hasMany(Post, { foreignKey: 'thread_id' });
-Post.belongsTo(Thread, { foreignKey: 'thread_id' });
+Post.belongsTo(Topic, { foreignKey: 'id' });
 
-Thread.hasMany(Comment, { foreignKey: 'thread_id' });
-Comment.belongsTo(Thread, { foreignKey: 'thread_id' });
+Comment.belongsTo(Post, { foreignKey: 'id' });
 
 // Users have many Posts
 User.hasMany(Post, { foreignKey: 'id' });
@@ -28,6 +26,7 @@ Post.hasMany(Comment, { foreignKey: 'id' });
 Comment.belongsTo(User, { foreignKey: 'id' });
 
 module.exports = {
+  Topic,
   User,
   Post,
   Comment,

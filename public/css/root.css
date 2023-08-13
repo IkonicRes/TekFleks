@@ -3,7 +3,7 @@
         /* BACKGROUND COLORS */
         --menu-bkgcolor: black;
         /* TEXT COLORS */
-        --main-text-color: rgb(255, 0, 0);
+        --main-textcolor: rgb(181, 241, 255);
         /* SHADOW COLORS */
         --shadowcolor: gold;
     /* TEXT EFFECTS */
@@ -13,6 +13,9 @@
         1px -1px 1px var(--shadowcolor);
     /* SIZES  */
         --h1-textsize: 4vw;
+        --h2-textsize: 2vw;
+        --h3-textsize: 1.5vw;
+        --h4-textsize: 1.25vw;
     /* SPACING */
         --h1-margintop: 25vh;
     /* BORDERS */

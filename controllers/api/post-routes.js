@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, Comment } = require('../../models');
+const { Topic, Post, Comment } = require('../../models');
 
 
 // GET all posts
@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     let postData;
     if (req.query.sortBy === 'likes') {
       postData = await Post.findAll({
-        include: Comment,
+        include: [{Comment, Topic}],
         order: [['likes', 'DESC']],
       });
     } else {
@@ -21,6 +21,8 @@ router.get('/', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
 
 
 // GET one post by its ID

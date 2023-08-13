@@ -1,66 +1,67 @@
 const router = require('express').Router();
-const { Forum, Thread, Post, Comment } = require('../../models');
+const { Topic, Post, Comment } = require('../../models');
 
-// GET all forums
+// GET all topics
 router.get('/', async (req, res) => {
   try {
-    const forumData = await Forum.findAll({
-      include: Thread,
+    console.log("fekc")
+    const topicData = await Topic.findAll({
+      include: Post,
     });
-    res.status(200).json(forumData);
+    res.status(200).json(topicData);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// GET one forum by its ID
+// GET one topic by its ID
 router.get('/:id', async (req, res) => {
   try {
-    const forumData = await Forum.findByPk(req.params.id, {
-      include: Thread,
+    const topicData = await Topic.findByPk(req.params.id, {
+      include: Post,
     });
-    res.status(200).json(forumData);
+    res.status(200).json(topicData);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// POST (create) a new forum
+// POST (create) a new topic
 router.post('/', async (req, res) => {
   try {
-    const forumData = await Forum.create(req.body);
-    res.status(201).json(forumData);
+    const topicData = await Topic.create(req.body);
+    res.status(201).json(topicData);
   } catch (error) {
     res.status(400).json(error);
   }
 });
 
-// PUT (update) a forum
+// PUT (update) a topic
 router.put('/:id', async (req, res) => {
     try {
-      const [rowsUpdated] = await Forum.update(req.body, {
+      const [rowsUpdated] = await Topic.update(req.body, {
         where: {
           id: req.params.id,
         },
       });
   
       if (rowsUpdated === 0) {
-        return res.status(404).json({ error: 'Forum not found.' });
+        return res.status(404).json({ error: 'Topic not found.' });
       }
   
-      const updatedForum = await Forum.findByPk(req.params.id, {
+      const updatedTopic = await Topic.findByPk(req.params.id, {
         include: Thread,
       });
-      res.status(200).json(updatedForum);
+      res.status(200).json(updatedTopic);
     } catch (error) {
       res.status(400).json(error);
     }
   });
   
-// DELETE a forum
+// DELETE a topic
 router.delete('/:id', async (req, res) => {
 try {
-    await Forum.destroy({
+    await Topic.destroy({
     where: {
         id: req.params.id,
     },

@@ -1,10 +1,9 @@
-// Forum.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection.js');
 
-class Forum extends Model {}
+class Topic extends Model { }
 
-Forum.init(
+Topic.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -22,8 +21,8 @@ Forum.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'forum',
+    modelName: 'topic',
   }
 );
 
-module.exports = Forum;
+module.exports = Topic;

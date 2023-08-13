@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TekFleks</title>
+    <link rel="stylesheet" href="/css/reset.css"> 
+    <link rel="stylesheet" href="/css/root.css"> 
+    <link rel="stylesheet" href="/css/style.css"> 
 </head>
 <body>
     <header>
-        <h1>TekFleks</h1>
-        <p>Discuss and learn more about new technologies</p>
+        <section id="title">
+            <h1><a href="/">TekFleks</a></h1>
+            <h2>Your platform to discuss and learn tech</h2>
+        </section>
+        <nav class="navigation">
+            <a href="/">Home</a>
+            <a href="/topics">Topics</a>
+            <a href="/profile">My Profile</a>
+        </nav>
     </header>
 
-    <section class="post-form">
-        <h2>Create a New Post</h2>
-        <form action="/create-post" method="POST">
-            <textarea name="postContent" placeholder="What topic would you like to start?" required></textarea>
-            <button type="submit">Post</button>
-        </form>
+
+    <section class="content">
+        {{{body}}}
     </section>
-    {{{body}}}
+
     <footer>
         <p>&copy; 2023 TekFleks - Flex your dev skills</p>
     </footer>

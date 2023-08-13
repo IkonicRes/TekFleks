@@ -1,3 +1,82 @@
+@font-face {
+    font-family: 'ShareTech';
+    src: url(../fonts/ShareTechMono-Regular.ttf);
+  }
+  
+
+* {
+    font-size: 1vw;
+    font-family: 'ShareTech';
+}
+
+
+body {
+    color: var(--main-textcolor);
+    background-image: url('../images/background.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 5vh 5vw;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#title {
+    display: block;
+    margin-left: 3vw;
+}
+
+h1 {
+    font-size: var(--h1-textsize);
+    text-shadow: var(--base-textshadow);
+    margin-bottom: 0;
+}
+
+h1 > a{
+    font-size: inherit;
+    text-decoration: inherit;
+    color: inherit;
+}
+
+h2 {
+    font-size: var(--h2-textsize);
+    margin: .2vh 0 2vh 5vw;
+}
+
+.navigation {
+
+}
+h3 {
+    font-size: var(--h3-textsize)
+}
+
+h4 {
+    font-size: var(--h4-textsize)
+}
+
+.content {
+    /* Create a dark rounded border background */
+    background-color: rgba(0, 0, 0, 0.518);
+    padding: 2vh 0;
+}
+
+.sections {
+    margin: 1vw;
+    padding: 0.2vh 2.5vw 0.2vh 1vw;
+}
+
+.subsections {
+    background-color: black;
+    padding: 0.2vw 5vw 0.2vw 1vw;
+}
+
+.top-comment {
+    padding-left: 2vw;
+}
 /*Extra small devices (phones, 600px and down)*/
 @media only screen and (max-width: 600px) {}
 /*Small devices (portrait tablets and large phones, 600px and up)*/
