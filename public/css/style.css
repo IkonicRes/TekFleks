@@ -9,7 +9,6 @@
     font-family: 'ShareTech';
 }
 
-
 body {
     color: var(--main-textcolor);
     background-image: url('../images/background.png');
@@ -146,6 +145,21 @@ input, textarea {
     justify-content: space-around;
 }
 
+#feed {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-right: 40vw;
+}
+
+#post-button {
+    width: 20vw;
+    height: 3rem;
+    background-color: rgba(178, 178, 178, 0.493);
+    border-radius: 20px;
+}
+
 .sections {
     margin: 1vw;
     padding: 2vh 2.5vw 2vh 20vw;
@@ -153,6 +167,30 @@ input, textarea {
     border-radius: 7px;
 }
 
+.add-post {
+    padding: 1vh 1vw 1vh 1vw;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center!important;
+    justify-content: center!important;
+}
+#post {
+    width: 40vw;
+    height: 10vh;
+}
+#post-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#post-submit {
+    align-self: flex-end;
+}
+.post-label {
+    font-size: var(--h4-textsize);
+}
 
 .subsections {
     background-color: black;

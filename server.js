@@ -6,7 +6,7 @@ const authRoutes = require('./controllers/auth');
 const flash = require('connect-flash');
 // Import the axios library
 const axios = require('axios');
-
+const helpers = require('./helpers'); 
 // Import the handlebars library
 const handlebars = require('express-handlebars');
 console.log(handlebars)
@@ -29,7 +29,7 @@ const path = require('path');
 
 try {
   // Set the view engine to handlebars
-app.engine('handlebars', hbars.engine);
+app.engine('handlebars', hbars.engine,);
 } catch (error) {
   console.log(error)
 }

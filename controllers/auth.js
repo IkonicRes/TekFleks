@@ -27,14 +27,18 @@ try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user with hashed password
-    await User.create({
+    const newUser = await User.create({
     username,
     password: hashedPassword,
     profile_pic_url: 'https://www.gravatar.com/avatar/default-avatar-image',
     });
 
+    req.login(newUser, (err) => {
+      if (err) throw err;
+      return res.redirect('/');      
+    });
+
     // Redirect to the login page after successful signup
-    res.redirect('/');
 } catch (error) {
     console.error('Error during signup:', error);
     req.flash('error', 'An error occurred during signup. Please try again.');

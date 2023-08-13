@@ -1,0 +1,28 @@
+<aside class="sidebar">
+    <nav id="sidebar-nav">
+        <ul>
+            {{#each topics as |topic|}}
+            <li><a href="#{{topic.name}}">{{topic.name}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</aside>  
+<section class="topic-list sections">
+    {{#each topics}}
+    <article class="topic">
+        <h3 id="{{name}}">{{name}}</h3>
+        <ul class="post-list">
+            {{#each posts}}
+            <div class="subsections">
+                <h4>{{text_content}}</h4>
+                {{#if topComment}} <!-- Check if top comment exists -->
+                <div class="top-comment">
+                    <p>Top Comment > {{topComment.content}}</p>
+                </div>
+                {{/if}}
+            </div>
+            {{/each}}
+        </ul>
+    </article>
+    {{/each}}
+</section>

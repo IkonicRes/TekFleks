@@ -6,19 +6,21 @@
 </nav>
 </aside>  
 {{#if user}}
-  <p>Welcome, {{user.username}}!</p>
   <!-- Display feed content for authenticated users -->
-    <section class="sections random-post">
-        <h2>
-            Feed
-        </h2>
+    <article class="sections random-post">
+        <section id="feed">
+            <h2>
+                Feed
+            </h2>
+            <button type="button" onclick="redirectToAddPost()" id="post-button">Create Post</button>
+        </section>
         {{#each posts as |post|}}
         <article class="post subsections">
             <h3>{{post.topic.name}}</h3>
             <section class="posts"><h4>{{post.text_content}}</h4></section>
         </article>
         {{/each}}
-    </section>
+    </article>
 {{else}}
   <p>Please log in or sign up to access this content.</p>
   <!-- Display message for unauthenticated users -->

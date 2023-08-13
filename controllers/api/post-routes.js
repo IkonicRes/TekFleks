@@ -38,7 +38,15 @@ router.get('/:id', async (req, res) => {
 // POST (create) a new post
 router.post('/', async (req, res) => {
   try {
-    const postData = await Post.create(req.body);
+    // Assuming your authentication module sets up the user ID in the session
+    const userId = req.user.user_id; // Adjust the property name based on your user model
+
+    // Create a new post associated with the user's ID
+    const postData = await Post.create({
+      ...req.body,
+      poster_id: userId, // Assuming your Post model's field name is "poster_id"
+    });
+
     res.status(201).json(postData);
   } catch (error) {
     res.status(400).json(error);
