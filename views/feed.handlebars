@@ -1,8 +1,11 @@
-    <section class="posts">
+    <section class="sections random-post">
+        <h2>
+            Feed
+        </h2>
         {{#each posts as |post|}}
         <article class="post subsections">
-            <h2>Topic: {{post.topic.name}}</h2>
-            <p>{{post.text_content}}</p>
+            <h3>{{post.topic.name}}</h3>
+            <section class="posts"><p>{{post.text_content}}</p></section>
         </article>
         {{/each}}
     </section>

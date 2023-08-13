@@ -5,17 +5,23 @@
         /* TEXT COLORS */
         --main-textcolor: rgb(181, 241, 255);
         /* SHADOW COLORS */
-        --shadowcolor: gold;
+        --shadowcolor: rgb(0, 136, 255);
+        --alt-shadowcolor: rgba(0, 136, 255, 0.739);
     /* TEXT EFFECTS */
         --base-textshadow: -1px 1px 1px var(--shadowcolor),
         1px 1px 1px var(--shadowcolor),
         -1px -1px 1px var(--shadowcolor),
         1px -1px 1px var(--shadowcolor);
+        --alt-textshadow: -1px 1px 1px var(--alt-shadowcolor),
+        1px 1px 1px var(--alt-shadowcolor),
+        -1px -1px 1px var(--alt-shadowcolor),
+        1px -1px 1px var(--alt-shadowcolor);
     /* SIZES  */
         --h1-textsize: 4vw;
         --h2-textsize: 2vw;
         --h3-textsize: 1.5vw;
         --h4-textsize: 1.25vw;
+        --nav-textsize: 1.5vw;
     /* SPACING */
         --h1-margintop: 25vh;
     /* BORDERS */

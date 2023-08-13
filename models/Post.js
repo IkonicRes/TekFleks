@@ -25,7 +25,15 @@ Post.init(
     },
     media_url: { //Add the media_url field
       type: DataTypes.STRING(255),
-    }
+    },
+    topic_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 'topic',
+        key: 'id',
+      },
+    },
   },
   {
     sequelize,

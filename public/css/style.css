@@ -15,7 +15,10 @@ body {
     background-image: url('../images/background.png');
     background-size: 100%;
     background-repeat: no-repeat;
+    background-attachment: scroll;
     margin: 5vh 5vw;
+    height: 100vh;
+    width: 90vw;
 }
 
 header {
@@ -26,8 +29,7 @@ header {
 }
 
 #title {
-    display: block;
-    margin-left: 3vw;
+    /* margin-right: .5vw; */
 }
 
 h1 {
@@ -45,37 +47,68 @@ h1 > a{
 h2 {
     font-size: var(--h2-textsize);
     margin: .2vh 0 2vh 5vw;
+    text-shadow: var(--base-textshadow);
 }
 
 .navigation {
+    width: 20vw;
+    align-self: center;
+}
 
+.navigation *{
+    text-decoration: inherit;
+    color: inherit;
+    font-size: var(--nav-textsize);
+    border-left: aqua 1px solid;
+    border-right: aqua 1px solid;
+    border-radius: 5px;
+    padding: 1%;
+    text-shadow: var(--base-textshadow);
 }
 h3 {
-    font-size: var(--h3-textsize)
+    font-size: var(--h3-textsize);
+    text-shadow: var(--alt-textshadow);
 }
 
 h4 {
-    font-size: var(--h4-textsize)
+    font-size: var(--h4-textsize);
+    text-shadow: var(--base-textshadow);
 }
 
 .content {
     /* Create a dark rounded border background */
     background-color: rgba(0, 0, 0, 0.518);
-    padding: 2vh 0;
+    padding-bottom: 1vw;
+    display: inherit;
+    justify-content: space-around;
+    border-radius: 7px;
 }
 
 .sections {
     margin: 1vw;
-    padding: 0.2vh 2.5vw 0.2vh 1vw;
+    padding: 2vh 2.5vw 0.2vh 1vw;
 }
+
 
 .subsections {
     background-color: black;
-    padding: 0.2vw 5vw 0.2vw 1vw;
+    border-radius: 4px;
 }
 
-.top-comment {
+.subsections > * {
+    padding: 1vh 1vw 1vh 1vw;
+}
+
+.top-comment, .random-post {
     padding-left: 2vw;
+}
+.post {
+    padding: .5vw
+}
+.posts {
+    /* margin: 1vw; */
+    border: 1px rgba(0, 255, 255, 0.512) solid;
+    border-radius: 7px;
 }
 /*Extra small devices (phones, 600px and down)*/
 @media only screen and (max-width: 600px) {}

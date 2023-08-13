@@ -7,6 +7,12 @@ const topicData = [
   {
     name: 'General Chat',
   },
+  {
+    name: 'New Technologies'
+  },
+  {
+    name: 'AI Development'
+  }
   // Add more topic data as needed
 ];
 
