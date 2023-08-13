@@ -1,6 +1,9 @@
 // Import the express library
 const express = require('express');
-
+const session = require('express-session');
+const {passport} = require('./utils/auth');
+const authRoutes = require('./controllers/auth');
+const flash = require('connect-flash');
 // Import the axios library
 const axios = require('axios');
 
@@ -34,11 +37,25 @@ app.engine('handlebars', hbars.engine);
 // Set the view engine to handlebars
 app.set('view engine', 'handlebars');
 // Parse incoming JSON data
+
+
 app.use(express.json());
 
 // Parse URL-encoded data with the extended option set to true
 app.use(express.urlencoded({ extended: true }));
 
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(flash()); // Add this line to use connect-flash middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(authRoutes); 
 app.use(routes);
 console.log("Static routes: ", path.join(__dirname, 'public'))
 app.use(express.static(path.join(__dirname, 'public')));
@@ -46,6 +63,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
+
 
 // Sync the sequelize models to the database and start the server
 sequelize.sync().then(() => {

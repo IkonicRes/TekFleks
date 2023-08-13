@@ -1,27 +1,29 @@
 const router = require('express').Router();
 const { Topic, Post, Comment } = require('../models');
 const { Sequelize } = require('../config/connection')
+const { isAuthenticated } = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-  try {
+router.get('/', isAuthenticated, async (req, res) => {
+    try {
       // Fetch random posts along with their comments and topic information
       const postsData = await Post.findAll({
-          include: [
-              { model: Comment },
-              { model: Topic }
-          ],
-          order: Sequelize.literal('RAND()'), // Fetch random posts
-          limit: 10 // Limit to a certain number of posts
+        include: [
+          { model: Comment },
+          { model: Topic },
+        ],
+        order: Sequelize.literal('RAND()'), // Fetch random posts
+        limit: 10, // Limit to a certain number of posts
       });
-
-      const posts = postsData.map(post => post.get({ plain: true }));
-
-      res.render('feed', { posts: posts });
-  } catch (error) {
+  
+      const posts = postsData.map((post) => post.get({ plain: true }));
+  
+      res.render('feed', { posts: posts, user: req.user }); // Pass the authenticated user to the template
+    } catch (error) {
       console.log(error);
       res.status(500).json(error);
-  }
-});
+    }
+  });
+  
 
 
 router.get('/topics', async (req, res) => {
