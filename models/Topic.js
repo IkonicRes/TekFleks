@@ -5,7 +5,7 @@ class Topic extends Model { }
 
 Topic.init(
   {
-    id: {
+    topic_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,

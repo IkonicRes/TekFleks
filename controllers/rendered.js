@@ -34,7 +34,7 @@ router.get('/topics', async (req, res) => {
                   // Include any other necessary associations
               ],
           },
-          order: [['id', 'ASC']], // You can adjust the order as needed
+          order: [['topic_id', 'ASC']], // You can adjust the order as needed
       });
 
       let topics = topicData.map((topic) => {

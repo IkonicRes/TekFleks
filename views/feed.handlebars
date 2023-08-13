@@ -1,11 +1,20 @@
-    <section class="sections random-post">
-        <h2>
-            Feed
-        </h2>
-        {{#each posts as |post|}}
-        <article class="post subsections">
-            <h3>{{post.topic.name}}</h3>
-            <section class="posts"><p>{{post.text_content}}</p></section>
-        </article>
-        {{/each}}
-    </section>
+<aside class="sidebar">
+    <nav id="sidebar-nav">
+        <ul>
+            {{#each topics as |topic|}}
+            <li><a href="#{{topic.name}}">{{topic.name}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</aside>  
+<section class="sections random-post">
+    <h2>
+        Feed
+    </h2>
+    {{#each posts as |post|}}
+    <article class="post subsections">
+        <h3>{{post.topic.name}}</h3>
+        <section class="posts"><h4>{{post.text_content}}</h4></section>
+    </article>
+    {{/each}}
+</section>

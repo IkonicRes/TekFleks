@@ -41,7 +41,7 @@ router.put('/:id', async (req, res) => {
     try {
       const [rowsUpdated] = await Topic.update(req.body, {
         where: {
-          id: req.params.id,
+          topic_id: req.params.id,
         },
       });
   
@@ -63,7 +63,7 @@ router.delete('/:id', async (req, res) => {
 try {
     await Topic.destroy({
     where: {
-        id: req.params.id,
+        topic_id: req.params.id,
     },
     });
     res.status(204).end();
