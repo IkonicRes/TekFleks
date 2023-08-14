@@ -1,38 +1,53 @@
 {{#if user}}
+    <!-- If the user exists -->
     <aside class="sidebar">
+        <!-- Display a sidebar -->
         <nav id="sidebar-nav">
+            <!-- Navigation for the sidebar -->
             <ul>
+                <!-- Start of a list -->
                 {{#each topics as |topic|}}
+                <!-- For each topic in the array -->
                 <li><a href="#{{topic.name}}">{{topic.name}}</a></li>
+                <!-- Display a list item with a link to the topic -->
                 {{/each}}
+                <!-- End of the loop -->
             </ul>
+            <!-- End of the list -->
         </nav>
     </aside>  
+    <!-- End of the sidebar -->
     <section class="topic-list sections">
+        <!-- Display a section for the topic list -->
         {{#each topics as |topic|}}
+        <!-- For each topic in the array -->
         <article class="topic">
+            <!-- Display an article for the topic -->
             <h3 id="{{topic.name}}">{{topic.name}}</h3>
+            <!-- Display the topic name as a heading with an ID -->
             <ul class="post-list">
-                {{#each topic.posts as |post|}} <!-- Iterate over the posts of the current topic -->
+                <!-- Start of a list for the posts -->
+                {{#each topic.posts as |post|}}
+                <!-- For each post in the current topic -->
                 <div class="subsections">
+                    <!-- Display a subsection -->
                     <a class="post-link" href="/posts/{{post.post_id}}">
+                        <!-- Display a link to the post -->
                         <h4><q>{{post.title}}</q></h4>
+                        <!-- Display the post title as a heading -->
                     </a>
                 </div>
+                <!-- End of the subsection -->
                 {{/each}}
+                <!-- End of the loop -->
             </ul>
+            <!-- End of the post list -->
         </article>
+        <!-- End of the article -->
         {{/each}}
+        <!-- End of the loop -->
     </section>
+    <!-- End of the topic list section -->
 {{else}}
-{{!-- <section class="sections reject">
-  <div class="rejection-text">
-    <p>Please log in or sign up to access this content.</p>
-    <br>
-    <a href="/signup">Signup</a></p>
-  </div>
-  <br>
-  <p>Already have an account? <a href="/login">Login</a></p>
-  <!-- Display message for unauthenticated users -->
-</section> --}}
+    <!-- If the user does not exist -->
 {{/if}}

@@ -1,46 +1,59 @@
 {{#if user}}
+<!-- If the user is logged in -->
 <aside class="sidebar">
     <nav id="sidebar-nav">
         <ul>
             {{#if userPosts.length}}
-                {{#each userPosts as |post|}}
-                <li><a href="#post{{post.dataValues.post_id}}">{{post.dataValues.title}}</a></li>
-                {{/each}}
+            <!-- If the user has posts -->
+            {{#each userPosts as |post|}}
+            <!-- Loop through each user post -->
+            <li><a href="#post{{post.dataValues.post_id}}">{{post.dataValues.title}}</a></li>
+            <!-- Display a link to each post -->
+            {{/each}}
             {{else}}
-                <li>You don't have any posts</li>
+            <!-- If the user has no posts -->
+            <li>You don't have any posts</li>
+            <!-- Display a message stating that the user has no posts -->
             {{/if}}
         </ul>
     </nav>
 </aside>  
 <section class="sections profile">
     <br>
-
     <h2>Welcome to Your Profile, {{user}}!</h2>
+    <!-- Display a welcome message with the user's name -->
     <h3>Your Posts:</h3>
     {{#if userPosts.length}}
-        <ul class="post-list">
-            {{#each userPosts as |post|}}
-                <div class="subsections" id="post{{post.dataValues.post_id}}">
-                    <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
-                        <h3><q>{{post.dataValues.title}}</q></h3>
-                        <p>{{post.dataValues.text_content}}</p>
-                    </a>
-                </div>
-            {{/each}}
-        </ul>
+    <!-- If the user has posts -->
+    <ul class="post-list">
+        {{#each userPosts as |post|}}
+        <!-- Loop through each user post -->
+        <div class="subsections" id="post{{post.dataValues.post_id}}">
+            <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
+                <h3><q>{{post.dataValues.title}}</q></h3>
+                <!-- Display the post title -->
+                <p>{{post.dataValues.text_content}}</p>
+                <!-- Display the post content -->
+            </a>
+        </div>
+        {{/each}}
+    </ul>
     {{else}}
-        <p>You don't have any posts yet. Start by creating a new post!</p>
+    <!-- If the user has no posts -->
+    <p>You don't have any posts yet. Start by creating a new post!</p>
+    <!-- Display a message stating that the user has no posts and suggesting to create a new post -->
     {{/if}}
 </section>
 {{else}}
+<!-- If the user is not logged in -->
 <section class="sections reject">
-  <div class="rejection-text">
-    <p>Please log in or sign up to access this content.</p>
+    <div class="rejection-text">
+        <p>Please log in or sign up to access this content.</p>
+        <br>
+        <a href="/signup">Signup</a></p>
+    </div>
     <br>
-    <a href="/signup">Signup</a></p>
-  </div>
-  <br>
-  <p>Already have an account? <a href="/login">Login</a></p>
-  <!-- Display message for unauthenticated users -->
+    <p>Already have an account? <a href="/login">Login</a></p>
+    <!-- Display a message and links to signup and login pages -->
 </section>
 {{/if}}

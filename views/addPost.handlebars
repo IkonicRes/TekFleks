@@ -1,24 +1,39 @@
 <section class="sections add-post">
+    <!-- The section for adding a new post -->
     <p id="login-header">Create a new post</p>
+    <!-- Heading for the add post section -->
     <form id="post-form" action="/" method="POST" autocomplete="off">
+        <!-- Form for submitting a new post -->
         <label class="post-label" for="title">Title:</label>
+        <!-- Label for the title input field -->
         <input type="text" id="title" name="title" required>
+        <!-- Text input field for the post title -->
         <br>
         <label type="select" class="post-label" for="topics">Topic:</label>
+        <!-- Label for the topics select field -->
         <select name="topics" id="topics" required>
+            <!-- Select field for choosing the post topic -->
             {{#each topics as |topic| }}
+            <!-- Loop through the topics and generate an option for each topic -->
             <option class="post-select" value="{{topic.name}}">{{topic.name}}</option>
+            <!-- Option for a topic, with the topic name as the value -->
             {{/each}}
         </select>
         <br>
         <label class="post-label" for="post">Post content:</label>
+        <!-- Label for the post content input field -->
         <input type="text" id="post" name="post" required>
+        <!-- Text input field for the post content -->
         <br>
         <section id="post-submit">
+            <!-- Section for the post submission -->
             {{#if message}}
+                <!-- Check if there is a message (error message) to display -->
                 <p class="error-message">{{ message }}</p>
+                <!-- Display the error message if it exists -->
             {{/if}}
             <button id="post-submit" type="submit">Post</button>
+            <!-- Submit button for posting the form -->
         </section>
     </form>
 </section>

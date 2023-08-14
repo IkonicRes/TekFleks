@@ -1,6 +1,8 @@
 <section class="sections login">
+    <!-- Login section -->
     <p id="login-header">Login</p>
     <form action="/login" method="POST">
+        <!-- Login form -->
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
@@ -8,11 +10,13 @@
         <input type="password" id="password" name="password" required>
         <br>
         <section id="login-submit">
+            <!-- Login submit section -->
             <button class="login-button" type="submit">Login</button>
         </section>
     </form>
     <p>Don't have an account? <a href="/signup">Signup</a></p>
-            {{#if message}}
-                <p class="error-message">{{ message }}</p>
-            {{/if}}
+    <!-- Display an error message if it exists -->
+    {{#if message}}
+        <p class="error-message">{{ message }}</p>
+    {{/if}}
 </section>

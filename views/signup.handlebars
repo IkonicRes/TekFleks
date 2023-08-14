@@ -1,18 +1,36 @@
 <section class="sections signup">
+    <!-- Section for the signup form -->
     <p id="signup-header">Sign Up</p>
+    <!-- Heading for the signup section -->
     <form class="login-form" action="/signup" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+        <!-- Form for the signup -->
+        <label for="username">Username:</label>
+        <!-- Label for the username input field -->
+        <input type="text" id="username" name="username" required>
+        <!-- Input field for the username -->
+
         <br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+
+        <label for="password">Password:</label>
+        <!-- Label for the password input field -->
+        <input type="password" id="password" name="password" required>
+        <!-- Input field for the password -->
+
         <br>
+
         <section id="signup-submit">
+            <!-- Section for the signup submit button -->
             <button class="login-button" type="submit">Sign Up</button>
+            <!-- Button to submit the signup form -->
         </section>
     </form>
+
     <p>Already have an account? <a href="/login">Login</a></p>
-            {{#if message}}
-                <p class="error-message">{{ message }}</p>
-            {{/if}}
+    <!-- Message for users who already have an account -->
+
+    {{#if message}}
+        <!-- Conditional block: if 'message' is truthy -->
+        <p class="error-message">{{ message }}</p>
+        <!-- Display the error message -->
+    {{/if}}
 </section>

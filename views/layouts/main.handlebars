@@ -1,37 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Set the character encoding and viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Set the title of the page -->
     <title>TekFleks</title>
-    <link rel="stylesheet" href="/css/reset.css"> 
-    <link rel="stylesheet" href="/css/root.css"> 
-    <link rel="stylesheet" href="/css/style.css"> 
-     <script>
+
+    <!-- Include CSS stylesheets -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/root.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Define a JavaScript function to redirect to the '/addPost' route -->
+    <script>
         function redirectToAddPost() {
             window.location.href = '/addPost';
         }
     </script>
 </head>
+
 <body>
+    <!-- Output the value of the 'isAuthenticated' variable to the console -->
     {{consoleLog 'IsAuthenticated:' isAuthenticated}}
+
+    <!-- Define the header section of the page -->
     <header>
+        <!-- Define the title section of the header -->
         <section id="title">
+            <!-- Display the website name and description -->
             <h1><a href="/">TekFleks</a></h1>
             <h2>Your platform to discuss and learn tech</h2>
         </section>
+
+        <!-- Define the user field section of the header -->
         <section>
             <div id="user-field">
+                <!-- Check if the 'user' variable exists -->
                 {{#if user}}
+                <!-- Display the logout button if the user is logged in -->
                 <a href="/logout" class="logout-button">Logout</a>
                 {{/if}}
+
+                <!-- Check if the user is authenticated -->
                 {{#if isAuthenticated}}
+                    <!-- Check if the current page body is the 'feed' template -->
                     {{#isTemplate 'feed' body}}
+                        <!-- Display a welcome message with the username -->
                         <p>Welcome, {{user}}!</p>
+                        <!-- Output the value of the 'user' variable to the console -->
                         {{consoleLog 'User:' user}}
                     {{/isTemplate}}
                 {{/if}}
             </div>
+
+            <!-- Define the navigation menu -->
             <nav class="navigation">
                 <a href="/">Home</a>
                 <a href="/topics">Topics</a>
@@ -40,13 +65,20 @@
             </nav>
         </section>
     </header>
+
+    <!-- Define the main content section of the page -->
     <main>
         <section class="content">
+            <!-- Render the dynamic content of the current page -->
             {{{body}}}
         </section>
     </main>
+
+    <!-- Define the footer section of the page -->
     <footer>
+        <!-- Display the copyright information -->
         <p>&copy; 2023 TekFleks - Flex your dev skills</p>
     </footer>
 </body>
+
 </html>
