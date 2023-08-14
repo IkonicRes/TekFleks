@@ -9,6 +9,9 @@
     "watch": "nodemon server.js",
     "seed": "node seeds/index.js"
   },
+  "engines": {
+    "node": "14.x"
+  },  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IkonicRes/TekFleks.git"
