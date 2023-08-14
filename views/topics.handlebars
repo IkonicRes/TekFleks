@@ -9,18 +9,13 @@
         </nav>
     </aside>  
     <section class="topic-list sections">
-        {{#each topics}}
+        {{#each topics as |topic|}}
         <article class="topic">
-            <h3 id="{{name}}">{{name}}</h3>
+            <h3 id="{{topic.name}}">{{topic.name}}</h3>
             <ul class="post-list">
-                {{#each posts}}
+                {{#each topic.posts as |post|}} <!-- Iterate over the posts of the current topic -->
                 <div class="subsections">
-                    <h4>{{title}}</h4>
-                    {{#if topComment}} <!-- Check if top comment exists -->
-                    <div class="top-comment">
-                        <p>Top Comment > {{topComment.content}}</p>
-                    </div>
-                    {{/if}}
+                    <h4>{{post.title}}</h4>
                 </div>
                 {{/each}}
             </ul>
@@ -38,5 +33,4 @@
   <p>Already have an account? <a href="/login">Login</a></p>
   <!-- Display message for unauthenticated users -->
 </section>
-
 {{/if}}

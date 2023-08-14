@@ -3,14 +3,41 @@ const { Topic, Post, Comment, User } = require('../models');
 const { Sequelize } = require('../config/connection')
 const { isAuthenticated } = require('../utils/auth');
 
+router.post('/', isAuthenticated, async (req, res) => {
+  try {
+    const { title, topics, post } = req.body;
+    const selectedTopic = await Topic.findOne({ where: { name: topics } });
+
+    if (selectedTopic) {
+      await Post.create({
+        title: title,
+        poster_id: req.user.user_id, // Set the poster_id to user_id
+        topic_id: selectedTopic.topic_id,
+        text_content: post,
+        // Other fields as needed
+      });
+
+      return res.redirect('/');
+    }
+
+    return res.status(400).send('Selected topic does not exist.');
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).send('An error occurred while creating the post.');
+  }
+});
 
 router.get('/profile', isAuthenticated, async (req, res) => {
   try
   {
     console.log('Is authenticated:', req.isAuthenticated());
     const userPosts = await Post.findAll({
-      where: { user_id: req.user.user_id }, // Fetch posts by the authenticated user
-    });;
+      where: { poster_id: req.user.user_id }, // Fetch posts by the authenticated user
+      include: [
+        { model: User }, // Include the associated user data
+        { model: Topic }, // Include the associated topic data
+      ],
+    });
     let topicData = await Topic.findAll({
       include: {
         model: Post,
@@ -35,7 +62,8 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
       return plainTopic;
     });
-    res.render('profile', { user: req.user, userPosts: userPosts, topics: topics });
+    console.log(req.user.username, userPosts)
+    res.render('profile', { user: req.user.username, userPosts: userPosts, topics: topics });
   } catch (error)
   {
     console.error('Error fetching user profile:', error);
@@ -57,7 +85,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
       const posts = postsData.map((post) => post.get({ plain: true }));
       console.log(req.user.username)
-      res.render('feed', { posts: posts, user: req.user.username }); // Pass the authenticated user to the template
+      res.render('feed', { posts: posts, user: req.user.username, isAuthenticated: req.isAuthenticated() }); // Pass the authenticated user to the template
     } catch (error)
     {
       console.log(error);
@@ -93,6 +121,35 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
     res.render('addPost', { topics: topics, user: req.user.username });
   })
+
+  router.post('/addPost', async (req, res) => {
+    try {
+      const { title, topics, post } = req.body;
+  
+      // Find the corresponding topic_id based on the selected topic name
+      const selectedTopic = await Topic.findOne({ where: { name: topics } });
+  
+      if (selectedTopic) {
+        // Create a new post in the database with the correct topic_id
+        await Post.create({
+          title: title,
+          topic_id: selectedTopic.topic_id, // Set the correct topic_id here
+          text_content: post,
+          // Other fields as needed
+        });
+  
+        // Redirect to home page after successful submission
+        return res.redirect('/');
+      }
+  
+      // Handle case where the selected topic doesn't exist
+      return res.status(400).send('Selected topic does not exist.');
+    } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).send('An error occurred while creating the post.');
+    }
+  });
+  
 
   router.get('/topics', async (req, res) => {
     try
