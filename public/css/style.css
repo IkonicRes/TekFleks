@@ -15,7 +15,7 @@ html {
 body {
     color: var(--main-textcolor);
     background-image: url('../images/background.png');
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     margin: 5vh 5vw;
