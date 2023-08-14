@@ -53,10 +53,9 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true  // Flash the error message
 }));
 
-// Logout route
-router.get('/logout', (req, res) => {
-    req.logout(); // Logout the user
-    res.redirect('/login'); // Redirect to the login page
-  });
-  
+router.get('/logout', function(req, res, next) {
+  req.logout(); // Simply call req.logout() without a callback
+  res.redirect('/login');
+});
+
 module.exports = router;

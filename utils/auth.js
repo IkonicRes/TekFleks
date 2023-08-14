@@ -41,9 +41,10 @@ passport.deserializeUser(async (user_id, done) => {
 });
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
+    console.log('User is authenticated');
     return next();
   }
-  res.render('login'); // Render the login page
+  res.redirect('/login'); // Redirect to the login page if not authenticated
 };
 
 module.exports = { passport, isAuthenticated };

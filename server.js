@@ -6,7 +6,7 @@ const authRoutes = require('./controllers/auth');
 const flash = require('connect-flash');
 // Import the axios library
 const axios = require('axios');
-const helpers = require('./helpers'); 
+const helpers = require('./utils/helpers'); 
 // Import the handlebars library
 const handlebars = require('express-handlebars');
 console.log(handlebars)
@@ -20,7 +20,9 @@ const sequelize = require('./config/connection');
 // Create an instance of the express application
 const app = express();
 
-const hbars = handlebars.create({})
+const hbars = handlebars.create({
+  helpers: helpers
+})
 
 // Set the PORT variable to the value of process.env.PORT or 3001
 const PORT = process.env.PORT || 3001;

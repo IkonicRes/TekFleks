@@ -1,28 +1,42 @@
-<aside class="sidebar">
-    <nav id="sidebar-nav">
-        <ul>
-            {{#each topics as |topic|}}
-            <li><a href="#{{topic.name}}">{{topic.name}}</a></li>
-            {{/each}}
-        </ul>
-    </nav>
-</aside>  
-<section class="topic-list sections">
-    {{#each topics}}
-    <article class="topic">
-        <h3 id="{{name}}">{{name}}</h3>
-        <ul class="post-list">
-            {{#each posts}}
-            <div class="subsections">
-                <h4>{{text_content}}</h4>
-                {{#if topComment}} <!-- Check if top comment exists -->
-                <div class="top-comment">
-                    <p>Top Comment > {{topComment.content}}</p>
+{{#if user}}
+    <aside class="sidebar">
+        <nav id="sidebar-nav">
+            <ul>
+                {{#each topics as |topic|}}
+                <li><a href="#{{topic.name}}">{{topic.name}}</a></li>
+                {{/each}}
+            </ul>
+        </nav>
+    </aside>  
+    <section class="topic-list sections">
+        {{#each topics}}
+        <article class="topic">
+            <h3 id="{{name}}">{{name}}</h3>
+            <ul class="post-list">
+                {{#each posts}}
+                <div class="subsections">
+                    <h4>{{title}}</h4>
+                    {{#if topComment}} <!-- Check if top comment exists -->
+                    <div class="top-comment">
+                        <p>Top Comment > {{topComment.content}}</p>
+                    </div>
+                    {{/if}}
                 </div>
-                {{/if}}
-            </div>
-            {{/each}}
-        </ul>
-    </article>
-    {{/each}}
+                {{/each}}
+            </ul>
+        </article>
+        {{/each}}
+    </section>
+{{else}}
+<section class="sections reject">
+  <div class="rejection-text">
+    <p>Please log in or sign up to access this content.</p>
+    <br>
+    <a href="/signup">Signup</a></p>
+  </div>
+  <br>
+  <p>Already have an account? <a href="/login">Login</a></p>
+  <!-- Display message for unauthenticated users -->
 </section>
+
+{{/if}}

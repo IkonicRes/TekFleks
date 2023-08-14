@@ -47,11 +47,13 @@ router.post('/', async (req, res) => {
       poster_id: userId, // Assuming your Post model's field name is "poster_id"
     });
 
-    res.status(201).json(postData);
+    // Redirect to the "feed" page after successful post creation
+    res.redirect('/feed'); // Adjust the route path as needed
   } catch (error) {
     res.status(400).json(error);
   }
 });
+
 
 // PUT (update) a post
 router.put('/:id', async (req, res) => {

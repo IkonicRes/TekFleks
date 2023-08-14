@@ -28,7 +28,7 @@ header {
 }
 
 #title {
-    /* margin-right: .5vw; */
+    margin-right: .5vw;
 }
 
 h1 {
@@ -65,6 +65,36 @@ h2 {
     text-shadow: var(--base-textshadow);
 }
 
+#user-field {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-right: 4vw;
+}
+#user-field > a {
+    margin-bottom: 15px;
+}
+
+.reject {
+    width: 20vw!important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2vh 4vw !important;
+
+}
+.profile {
+    width: 60vw!important;
+    min-height: 80vh;
+}
+.rejection-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
 main {
     display: flex;
     flex-direction: row;
@@ -73,6 +103,7 @@ main {
     padding: 1vw;
     border-radius: 7px;
     flex-basis: 10vw;
+    margin-top: 2vh;
 }
 
 .sidebar {
@@ -165,6 +196,11 @@ input, textarea {
     padding: 2vh 2.5vw 2vh 20vw;
     background-color: black;
     border-radius: 7px;
+    width: 80vw;
+}
+
+.topic-list {
+    width: 60vw;
 }
 
 .add-post {

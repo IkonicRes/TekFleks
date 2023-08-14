@@ -17,11 +17,23 @@
         {{#each posts as |post|}}
         <article class="post subsections">
             <h3>{{post.topic.name}}</h3>
-            <section class="posts"><h4>{{post.text_content}}</h4></section>
+            <section class="posts">
+                <h4>{{post.title}}</h4>
+                <p>{{post.text_content}}</p>
+            </section>
         </article>
         {{/each}}
     </article>
 {{else}}
-  <p>Please log in or sign up to access this content.</p>
+<section class="sections reject">
+  <div class="rejection-text">
+    <p>Please log in or sign up to access this content.</p>
+    <br>
+    <a href="/signup">Signup</a></p>
+  </div>
+  <br>
+  <p>Already have an account? <a href="/login">Login</a></p>
   <!-- Display message for unauthenticated users -->
+</section>
+
 {{/if}}

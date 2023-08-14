@@ -1,8 +1,14 @@
 module.exports = {
-    isTemplate: function (templateName, options) {
-      if (templateName === options.data.root.body) {
+    isTemplate: function (templateName, currentTemplateHTML, options) {
+      console.log('Checking template:', templateName);
+  
+      if (currentTemplateHTML.includes(templateName)) {
         return options.fn(this);
       }
       return options.inverse(this);
+    },
+    consoleLog: function (loggedData) {
+      console.log(loggedData);
     }
   };
+  

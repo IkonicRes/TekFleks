@@ -20,14 +20,20 @@
             <h2>Your platform to discuss and learn tech</h2>
         </section>
         <section>
+            <div id="user-field">
+                {{#if isAuthenticated}}
+                    <a href="/logout" class="logout-button">Logout</a>
+                    {{#isTemplate 'feed' body}}
+                        <p>Welcome, {{user}}!</p>
+                        {{consoleLog 'User:' user}}
+                    {{/isTemplate}}
+                {{/if}}
+            </div>
             <nav class="navigation">
                 <a href="/">Home</a>
                 <a href="/topics">Topics</a>
                 <a href="/profile">My Profile</a>
             </nav>
-            {{#if (eq body 'feed')}}
-                <p>Welcome, {{user}}!</p>
-            {{/if}}
         </section>
     </header>
     <main>

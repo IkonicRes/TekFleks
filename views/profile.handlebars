@@ -1,3 +1,4 @@
+{{#if user}}
 <aside class="sidebar">
     <nav id="sidebar-nav">
         <ul>
@@ -7,22 +8,29 @@
         </ul>
     </nav>
 </aside>  
-<section class="topic-list sections">
-    {{#each topics}}
-    <article class="topic">
-        <h3 id="{{name}}">{{name}}</h3>
-        <ul class="post-list">
-            {{#each posts}}
-            <div class="subsections">
-                <h4>{{text_content}}</h4>
-                {{#if topComment}} <!-- Check if top comment exists -->
-                <div class="top-comment">
-                    <p>Top Comment > {{topComment.content}}</p>
-                </div>
-                {{/if}}
-            </div>
-            {{/each}}
-        </ul>
-    </article>
-    {{/each}}
+<section class="sections profile">
+    <br>
+
+    <h2>Welcome to Your Profile, {{user.username}}!</h2>
+    <h3>Your Posts:</h3>
+    <ul>
+        {{#each userPosts as |post|}} <!-- Adjust the path to user's posts -->
+            <li>
+                <h3>{{post.title}}</h3>
+                <p>{{post.text_content}}</p>
+            </li>
+        {{/each}}
+    </ul>
 </section>
+{{else}}
+<section class="sections reject">
+  <div class="rejection-text">
+    <p>Please log in or sign up to access this content.</p>
+    <br>
+    <a href="/signup">Signup</a></p>
+  </div>
+  <br>
+  <p>Already have an account? <a href="/login">Login</a></p>
+  <!-- Display message for unauthenticated users -->
+</section>
+{{/if}}
