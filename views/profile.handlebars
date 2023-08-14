@@ -22,7 +22,7 @@
             {{#each userPosts as |post|}}
                 <div class="subsections" id="post{{post.dataValues.post_id}}">
                     <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
-                        <h3>{{post.dataValues.title}}</h3>
+                        <h3><q>{{post.dataValues.title}}</q></h3>
                         <p>{{post.dataValues.text_content}}</p>
                     </a>
                 </div>

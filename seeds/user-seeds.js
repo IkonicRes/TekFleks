@@ -12,6 +12,11 @@ const userData = [
     password: 'password2',
     profile_pic_url: 'https://www.gravatar.com/avatar/22222222222222222222222222222222?d=mp&f=y',
   },
+  {
+    username: 'Randy Bobandy',
+    password: 'cheeseburger',
+    profile_pic_url: 'https://www.gravatar.com/avatar/22222222222222222222222222222222?d=mp&f=y',
+  },
 ];
 
 const seedUsers = async () => {

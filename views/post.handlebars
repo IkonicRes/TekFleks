@@ -1,6 +1,6 @@
 <section class="content sections single-post">
     <article class="single-post">
-        <h2>{{postTitle}}</h2>
+        <h2><q>{{postTitle}}</q></h2>
         <p>{{textContent}}</p>
         {{consoleLog 'postLogout:' currentUser}}
         {{#if (ownsPostOrComment user.id post.user_id)}}
