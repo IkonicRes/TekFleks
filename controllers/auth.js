@@ -37,6 +37,7 @@ try {
       if (err) throw err;
       return res.redirect('/');      
     });
+    
 
     // Redirect to the login page after successful signup
 } catch (error) {
@@ -46,12 +47,16 @@ try {
 }
 });
 
-// Handle login POST request
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true  // Flash the error message
-}));
+  failureRedirect: '/login',
+  failureFlash: true  // Flash the error message
+}), (req, res) => {
+  // Successful authentication
+  const userId = req.user.user_id; // Get the user's ID from the authenticated user object
+  res.cookie('userId', userId); // Set the 'userId' cookie
+  
+  res.redirect('/'); // Redirect to the user's dashboard or other page
+});
 
 router.get('/logout', function(req, res, next) {
   req.logout(function(err) {

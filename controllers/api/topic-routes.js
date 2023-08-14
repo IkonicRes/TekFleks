@@ -4,7 +4,6 @@ const { Topic, Post, Comment } = require('../../models');
 // GET all topics
 router.get('/', async (req, res) => {
   try {
-    console.log("fekc")
     const topicData = await Topic.findAll({
       include: Post,
     });

@@ -43,7 +43,10 @@ router.post('/', async (req, res) => {
 
     // Create a new post associated with the user's ID
     const postData = await Post.create({
-      ...req.body,
+      title: req.body.title,
+      text_content: req.body.text_content,
+      media_url: req.body.media_url,
+      topic_id: req.body.topic_id,
       poster_id: userId, // Assuming your Post model's field name is "poster_id"
     });
 

@@ -9,6 +9,12 @@ module.exports = {
     },
     consoleLog: function (loggedData) {
       console.log(loggedData);
+    },
+    ownsPostOrComment: (currentUserId, ownerId) => {
+      return currentUserId === ownerId;
+    },
+    getCurrentUserIdHelper: (user) => {
+      return user ? user.id : null;
     }
   };
   

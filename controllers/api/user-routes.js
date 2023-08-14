@@ -6,17 +6,12 @@ const { User, Post, Comment } = require('../../models'); // Import User, Post, a
 router.get('/', async (req, res) => {
   try {
     // Retrieve all users and include their associated posts and comments
-
-    console.log('hello')
-
     const userData = await User.findAll({
       include: [
         { model: Post, include: Comment }, // Include associated posts and comments
         // Include standalone associated comments
       ]
     });
-
-  console.log(userData)
 
     res.status(200).json(userData);
   } catch (err) {

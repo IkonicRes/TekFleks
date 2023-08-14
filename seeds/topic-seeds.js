@@ -18,7 +18,6 @@ const topicData = [
 
 const seedTopics = async () => {
   try {
-    console.log(Topic)
     await Topic.bulkCreate(topicData);
     console.log('Topics seeded successfully.');
   } catch (error) {

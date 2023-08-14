@@ -15,7 +15,9 @@
             <ul class="post-list">
                 {{#each topic.posts as |post|}} <!-- Iterate over the posts of the current topic -->
                 <div class="subsections">
-                    <h4>{{post.title}}</h4>
+                    <a class="post-link" href="/posts/{{post.post_id}}">
+                        <h4>{{post.title}}</h4>
+                    </a>
                 </div>
                 {{/each}}
             </ul>
@@ -23,7 +25,7 @@
         {{/each}}
     </section>
 {{else}}
-<section class="sections reject">
+{{!-- <section class="sections reject">
   <div class="rejection-text">
     <p>Please log in or sign up to access this content.</p>
     <br>
@@ -32,5 +34,5 @@
   <br>
   <p>Already have an account? <a href="/login">Login</a></p>
   <!-- Display message for unauthenticated users -->
-</section>
+</section> --}}
 {{/if}}

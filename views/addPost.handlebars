@@ -7,7 +7,7 @@
         <label type="select" class="post-label" for="topics">Topic:</label>
         <select name="topics" id="topics" required>
             {{#each topics as |topic| }}
-            <option value="{{topic.name}}">{{topic.name}}</option>
+            <option class="post-select" value="{{topic.name}}">{{topic.name}}</option>
             {{/each}}
         </select>
         <br>

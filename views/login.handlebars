@@ -8,11 +8,11 @@
         <input type="password" id="password" name="password" required>
         <br>
         <section id="login-submit">
-            {{#if message}}
-                <p class="error-message">{{ message }}</p>
-            {{/if}}
-            <button type="submit">Login</button>
+            <button class="login-button" type="submit">Login</button>
         </section>
     </form>
     <p>Don't have an account? <a href="/signup">Signup</a></p>
+            {{#if message}}
+                <p class="error-message">{{ message }}</p>
+            {{/if}}
 </section>

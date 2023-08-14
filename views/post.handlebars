@@ -1,0 +1,28 @@
+<section class="content sections single-post">
+    <article class="single-post">
+        <h2>{{postTitle}}</h2>
+        <p>{{textContent}}</p>
+        {{consoleLog 'postLogout:' currentUser}}
+        {{#if (ownsPostOrComment user.id post.user_id)}}
+    <button class="delete-button" data-id="{{post.id}}" data-type="post">Delete Post</button>
+        {{/if}}
+        <p>Posted by: </p>
+        <p>Likes: {{postLikes}}</p>
+        <section class="comments">
+            <h3>Comments</h3>
+            <form class="login-form" action="/comments/add" method="post">
+                <textarea id="comment" name="commentContent" placeholder="Write your comment here"></textarea>
+                <button class="login-button" type="submit">Add Comment</button>
+            </form>
+            {{#each comments as |comment|}}
+            <article class="comment">
+                <p>{{comment.dataValues.content}}</p>
+                <p>Commented by: {{comment.User.username}}</p>
+                {{#if comments.likes}}
+                <p>Likes: {{comment.likes}}</p>
+                {{/if}}
+            </article>
+            {{/each}}
+        </section>
+    </article>
+</section>

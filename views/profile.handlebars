@@ -13,12 +13,14 @@
 
     <h2>Welcome to Your Profile, {{user}}!</h2>
     <h3>Your Posts:</h3>
-    <ul>
+    <ul class="post-list">
         {{#each userPosts as |post|}} <!-- Adjust the path to user's posts -->
-            <li id="post{{post.dataValues.post_id}}">
-                <h3>{{post.dataValues.title}}</h3>
-                <p>{{post.dataValues.text_content}}</p>
-            </li>
+            <div class="subsections" id="post{{post.dataValues.post_id}}">
+                <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
+                    <h3>{{post.dataValues.title}}</h3>
+                    <p>{{post.dataValues.text_content}}</p>
+                </a>
+            </div>
         {{/each}}
     </ul>
 </section>

@@ -1,13 +1,7 @@
-<aside class="sidebar">
-<nav id="sidebar-nav">
-    <ul>
-        {{!-- here we will put some social things, maybe the highest posts? --}}
-    </ul>
-</nav>
-</aside>  
+
 {{#if user}}
   <!-- Display feed content for authenticated users -->
-    <article class="sections random-post">
+    <article class="sections feed">
         <section id="feed">
             <h2>
                 Feed
@@ -15,14 +9,15 @@
             <button type="button" onclick="redirectToAddPost()" id="post-button">Create Post</button>
         </section>
         {{#each posts as |post|}}
-        <article class="post subsections">
+            <article class="post subsections">
             <h3>{{post.topic.name}}</h3>
-            <section class="posts">
-                <h4>{{post.title}}</h4>
-                <p>{{post.text_content}}</p>
-            </section>
-        </article>
+                <section class="posts">
+                    <a class="post-link" href="/posts/{{post.post_id}}"><h4>{{post.title}}</h4></a>
+                    <p>{{post.text_content}}</p>
+                </section>
+            </article>
         {{/each}}
+
     </article>
 {{else}}
 <section class="sections reject">

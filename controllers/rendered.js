@@ -62,7 +62,6 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
       return plainTopic;
     });
-    console.log(req.user.username, userPosts)
     res.render('profile', { user: req.user.username, userPosts: userPosts, topics: topics });
   } catch (error)
   {
@@ -84,7 +83,6 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       });
 
       const posts = postsData.map((post) => post.get({ plain: true }));
-      console.log(req.user.username)
       res.render('feed', { posts: posts, user: req.user.username, isAuthenticated: req.isAuthenticated() }); // Pass the authenticated user to the template
     } catch (error)
     {
@@ -93,7 +91,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
   });
 
-  router.get('/addPost', async (req, res) => {
+  router.get('/addPost', isAuthenticated, async (req, res) => {
     let topicData = await Topic.findAll({
       include: {
         model: Post,
@@ -132,6 +130,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       if (selectedTopic) {
         // Create a new post in the database with the correct topic_id
         await Post.create({
+          user_id: user_id,
           title: title,
           topic_id: selectedTopic.topic_id, // Set the correct topic_id here
           text_content: post,
@@ -150,8 +149,36 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
   });
   
+  router.get('/posts/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        
+        // Find the post and its associated comments
+        const post = await Post.findByPk(postId, {
+            include: [
+                { model: Comment, include: User, order: [['date_created', 'ASC']] },
+                User
+            ]
+        });
 
-  router.get('/topics', async (req, res) => {
+        // Retrieve the user ID from the cookie
+        const currentUserId = await req.cookies.userId;
+        console.log('Current user ID:', currentUserId); // Add this line for debugging
+
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+
+        res.render('post', { currentUser: currentUserId, comments: post.comments, postTitle: post.title, post: post, textContent: post.text_content, postLikes: post.likes});
+    } catch (error) {
+        console.error('Error fetching post:', error);
+        res.status(500).send('An error occurred while fetching the post.');
+    }
+});
+
+
+
+  router.get('/topics', isAuthenticated, async (req, res) => {
     try
     {
       let topicData = await Topic.findAll({
@@ -186,6 +213,32 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       res.status(500).json(error);
     }
   });
+
+  router.post('/posts/:postId/delete', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const post = await Post.findByPk(postId);
+
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+
+        // Check if the current user owns the post
+        if (post.user_id === req.user.id) {
+            await post.destroy();
+            return res.redirect('/posts'); // Redirect to post list or other appropriate page
+        } else {
+            return res.status(403).send('Unauthorized');
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).send('An error occurred while deleting the post.');
+    }
+});
+
+  router.get('/about', isAuthenticated, (req, res) => {
+    res.render('about');
+  })
 
 
   module.exports = router;

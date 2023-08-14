@@ -9,17 +9,16 @@ const axios = require('axios');
 const helpers = require('./utils/helpers'); 
 // Import the handlebars library
 const handlebars = require('express-handlebars');
-console.log(handlebars)
 
 // Import the routes module from the './routes' file
 const routes = require('./controllers');
 
 // Import the sequelize connection from the './config/connection' file
 const sequelize = require('./config/connection');
-
+const cookieParser = require('cookie-parser');
 // Create an instance of the express application
 const app = express();
-
+app.use(cookieParser());
 const hbars = handlebars.create({
   helpers: helpers
 })
@@ -59,7 +58,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(authRoutes); 
 app.use(routes);
-console.log("Static routes: ", path.join(__dirname, 'public'))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((err, req, res, next) => {
   console.error(err.stack);

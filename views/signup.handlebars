@@ -1,18 +1,18 @@
 <section class="sections signup">
     <p id="signup-header">Sign Up</p>
-    <form action="/signup" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+    <form class="login-form" action="/signup" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
         <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
         <br>
         <section id="signup-submit">
-            {{#if message}}
-                <p class="error-message">{{ message }}</p>
-            {{/if}}
-            <button type="submit">Sign Up</button>
+            <button class="login-button" type="submit">Sign Up</button>
         </section>
     </form>
     <p>Already have an account? <a href="/login">Login</a></p>
+            {{#if message}}
+                <p class="error-message">{{ message }}</p>
+            {{/if}}
 </section>

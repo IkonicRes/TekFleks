@@ -1,7 +1,7 @@
 :root {
     /* COLORS */
         /* BACKGROUND COLORS */
-        --menu-bkgcolor: black;
+        --main-bkgcolor: rgba(0, 0, 0, 0.823);
         /* TEXT COLORS */
         --main-textcolor: rgb(181, 241, 255);
         /* SHADOW COLORS */
