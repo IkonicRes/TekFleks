@@ -2,9 +2,13 @@
 <aside class="sidebar">
     <nav id="sidebar-nav">
         <ul>
-            {{#each userPosts as |post|}}
-            <li><a href="#post{{post.dataValues.post_id}}">{{post.dataValues.title}}</a></li>
-            {{/each}}
+            {{#if userPosts.length}}
+                {{#each userPosts as |post|}}
+                <li><a href="#post{{post.dataValues.post_id}}">{{post.dataValues.title}}</a></li>
+                {{/each}}
+            {{else}}
+                <li>You don't have any posts</li>
+            {{/if}}
         </ul>
     </nav>
 </aside>  
@@ -13,16 +17,20 @@
 
     <h2>Welcome to Your Profile, {{user}}!</h2>
     <h3>Your Posts:</h3>
-    <ul class="post-list">
-        {{#each userPosts as |post|}} <!-- Adjust the path to user's posts -->
-            <div class="subsections" id="post{{post.dataValues.post_id}}">
-                <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
-                    <h3>{{post.dataValues.title}}</h3>
-                    <p>{{post.dataValues.text_content}}</p>
-                </a>
-            </div>
-        {{/each}}
-    </ul>
+    {{#if userPosts.length}}
+        <ul class="post-list">
+            {{#each userPosts as |post|}}
+                <div class="subsections" id="post{{post.dataValues.post_id}}">
+                    <a class="post-link" href="/posts/{{post.dataValues.post_id}}">
+                        <h3>{{post.dataValues.title}}</h3>
+                        <p>{{post.dataValues.text_content}}</p>
+                    </a>
+                </div>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>You don't have any posts yet. Start by creating a new post!</p>
+    {{/if}}
 </section>
 {{else}}
 <section class="sections reject">
