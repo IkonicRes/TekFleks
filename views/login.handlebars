@@ -2,6 +2,7 @@
     <!-- Login section -->
     <p id="login-header">Login</p>
     <form action="/login" method="POST">
+        <input type="hidden" name="backURL" value="{{backURL}}">
         <!-- Login form -->
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>

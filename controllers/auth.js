@@ -7,7 +7,8 @@ const bcrypt = require('bcrypt'); // Library for password hashing
 
 // Login route
 router.get('/login', (req, res) => {
-  res.render('login', { message: req.flash('error') }); // Render the login page with the error message (if any)
+  const backURL = (req.header('Referer') || '/')
+  res.render('login', { message: req.flash('error'), backURL }); // Render the login page with the error message (if any)
 });
 
 // Signup route
@@ -57,11 +58,11 @@ router.post('/login', passport.authenticate('local', {
 }), async (req, res) => {
   // Successful authentication
   const userId = req.user.user_id; // Get the user's ID from the authenticated user object 
-
+  const backUrl = req.body.backURL
 
   res.cookie('userId', userId); // Set the 'userId' cookie
 
-  res.redirect('/'); // Redirect to the user's dashboard or other page
+  res.redirect(backUrl); // Redirect to the user's dashboard or other page
 });
 
 // Logout route
