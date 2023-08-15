@@ -5,39 +5,49 @@
         <!-- Display the post content -->
         <p>{{textContent}}</p>
         <!-- Log the current user to the console with a custom message -->
-        {{consoleLog 'postLogout:' currentUser}}
+        {{!-- {{consoleLog 'postLogout:' currentUser}} --}}
         <!-- Check if the current user owns the post or comment -->
-        {{#if (ownsPostOrComment user.id post.user_id)}}
+        {{#if (ownsPostOrComment currentUser post.dataValues.user_id)}}
+    
             <!-- Display a delete button for the post -->
-            <button class="delete-button" data-id="{{post.id}}" data-type="post">Delete Post</button>
+            <button class="delete-button" data-id="{{post.post_id}}" data-type="post">Delete Post</button>
         {{/if}}
         <!-- Display the name of the user who posted the content -->
-        <p>Posted by: </p>
+        <p>Posted by: {{getUserFromId (number post.dataValues.user_id) posts}}</p>
+        <!-- Display the date the user posted the content -->
+        <p>Written on: {{formatDate post.dataValues.created_at}}</p>
         <!-- Display the number of likes for the post -->
         <p>Likes: {{postLikes}}</p>
         <section class="comments">
             <h3>Comments</h3>
             <!-- Form to add a new comment -->
-            <form class="login-form" action="/comments/add" method="post">
+            <form class="login-form" action="/api/comments" method="post">
                 <!-- Textarea to enter the comment content -->
-                <textarea id="comment" name="commentContent" placeholder="Write your comment here"></textarea>
+                {{!-- {{consoleLog post}} --}}
+                <input type="hidden" name="comment_poster_id" value="{{ currentUser }}">
+                <input type="hidden" name="post_id" value="{{ post.dataValues.post_id }}">
+                <textarea id="content" name="content" placeholder="Write your comment here"></textarea>
                 <!-- Button to submit the comment -->
-                <button class="login-button" type="submit">Add Comment</button>
+                <button class="login-button" type="submit" target="_self">Add Comment</button>
             </form>
             <!-- Iterate over each comment -->
-            {{#each comments as |comment|}}
-                <article class="comment">
+            {{!-- {{#with userMap as |outerMap|}} --}}
+                {{#each comments as |comment|}}
+                <article class="comment subsections">
                     <!-- Display the comment content -->
                     <p>{{comment.dataValues.content}}</p>
                     <!-- Display the username of the user who commented -->
-                    <p>Commented by: {{comment.User.username}}</p>
+                    {{consoleLog 'Current Username: ' userMap}}
+                    <p>Commented by: {{getUserFromId (number comment.dataValues.comment_poster_id) userMap comments}}</p>
+                    <date>On: {{formatDate comment.dataValues.created_at}}</date>
                     <!-- Check if the comment has any likes -->
                     {{#if comments.likes}}
                         <!-- Display the number of likes for the comment -->
                         <p>Likes: {{comment.likes}}</p>
                     {{/if}}
                 </article>
-            {{/each}}
+                {{/each}}
+            {{!-- {{/with}} --}}
         </section>
     </article>
 </section>

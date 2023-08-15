@@ -1,30 +1,31 @@
+<article class="sections feed">
 {{#if user}}
   <!-- Display feed content for authenticated users -->
-  <article class="sections feed">
     <section id="feed">
       <h2>
         Feed
       </h2>
       <button type="button" onclick="redirectToAddPost()" id="post-button">Create Post</button>
     </section>
-
+{{/if}}
     <!-- Loop over each post in the 'posts' array -->
-    {{#each posts as |post|}}
-      <article class="post subsections">
-        <h3>{{post.topic.name}}</h3>
-        <section class="posts">
-          <a class="post-link" href="/posts/{{post.post_id}}">
-            <!-- Display the post title -->
-            <h4><q>{{post.title}}</q></h4>
-          </a>
-          <!-- Display the post content -->
-          <p>{{post.text_content}}</p>
-        </section>
-      </article>
-    {{/each}}
+{{#each posts as |post|}}
+  <article class="post subsections">
+    <h3>{{post.topic.name}}</h3>
+    <section class="posts">
+      <a class="post-link" href="/posts/{{post.post_id}}">
+        <!-- Display the post title -->
+        <h4><q>{{post.title}}</q></h4>
+      </a>
+      <!-- Display the post content -->
+      <p>{{post.text_content}}</p>
+      <p>Written on: {{formatDate post.created_at}}</p>
+    </section>
+  </article>
+{{/each}}
 
   </article>
-{{else}}
+{{!-- {{else}}
   <!-- Display message for unauthenticated users -->
   <section class="sections reject">
     <div class="rejection-text">
@@ -35,4 +36,4 @@
     <br>
     <p>Already have an account? <a href="/login">Login</a></p>
   </section>
-{{/if}}
+ --}}

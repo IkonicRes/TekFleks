@@ -27,16 +27,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST (create) a new comment
 router.post('/', async (req, res) => {
   try {
     // Create a new comment in the database using the request body
-    const commentData = await Comment.create(req.body);
+    // console.log("🚀 ~ file: comment-routes.js:35 ~ router.post ~ req.body.currentUser:", req.body)
+    const newComment = await Comment.create({
+      comment_poster_id: req.body.comment_poster_id,
+      post_id: req.body.post_id,
+      content: req.body.content
+      // Add more attributes as needed from your Comment model
+    });
+    
+
     // Send the created comment as a JSON response with a 201 status code
-    res.status(201).json(commentData);
+    res.redirect(('/posts/' + req.body.post_id));
   } catch (error) {
+    console.error('Error creating comment:', error);
     // If an error occurs, send the error as a JSON response with a 400 status code
-    res.status(400).json(error);
+    res.status(400).json({ error: 'Failed to create comment' });
   }
 });
 

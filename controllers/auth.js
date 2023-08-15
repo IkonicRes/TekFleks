@@ -54,9 +54,11 @@ try {
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login', // Redirect to the login page if authentication fails
   failureFlash: true  // Flash the error message
-}), (req, res) => {
+}), async (req, res) => {
   // Successful authentication
-  const userId = req.user.user_id; // Get the user's ID from the authenticated user object
+  const userId = req.user.user_id; // Get the user's ID from the authenticated user object 
+
+
   res.cookie('userId', userId); // Set the 'userId' cookie
 
   res.redirect('/'); // Redirect to the user's dashboard or other page

@@ -52,6 +52,18 @@ h2 {
     text-shadow: var(--base-textshadow);
 }
 
+h2 > q {
+    font-size: inherit;
+    text-shadow: inherit;
+    margin: inherit;
+}
+
+h4 > q {
+    font-size: inherit;
+    text-shadow: inherit;
+    margin: inherit;
+}
+
 .navigation {
     width: 30vw;
     align-self: center;
@@ -114,6 +126,13 @@ main {
 
 .sidebar {
     position: relative; 
+}
+
+#profile-add-post{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
 
 #sidebar-nav {
@@ -197,6 +216,8 @@ h4 {
 }
 .feed {
     padding: 2vh 2.5vw 2vh 2.5vw!important;
+    display: flex!important;
+    flex-direction: column!important;
 }
 #feed {
     display: flex;

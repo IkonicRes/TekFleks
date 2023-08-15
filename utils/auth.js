@@ -22,7 +22,7 @@ passport.use(new LocalStrategy(
 
       // If the password is incorrect, return an error
       if (!bcrypt.compareSync(password, user.password)) {
-        console.log("'incorrect password'🚀 ~ file: auth.js:18 ~ password, user.password:", password, user.password)
+        // console.log("'incorrect password'🚀 ~ file: auth.js:18 ~ password, user.password:", password, user.password)
         return done(null, false, { message: 'Incorrect password.' });
       }
 

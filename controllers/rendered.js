@@ -9,7 +9,7 @@ router.post('/', isAuthenticated, async (req, res) => {
     const selectedTopic = await Topic.findOne({ where: { name: topics } });
 
     if (selectedTopic) {
-      await Post.create({
+      const newestPost = await Post.create({
         title: title,
         poster_id: req.user.user_id, // Set the poster_id to user_id
         topic_id: selectedTopic.topic_id,
@@ -17,7 +17,7 @@ router.post('/', isAuthenticated, async (req, res) => {
         // Other fields as needed
       });
 
-      return res.redirect('/');
+      return res.redirect(('/posts/' + newestPost.post_id));
     }
 
     return res.status(400).send('Selected topic does not exist.');
@@ -69,7 +69,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     res.status(500).send('An error occurred while fetching the profile.');
   }
 });
-  router.get('/', isAuthenticated, async (req, res) => {
+  router.get('/', async (req, res) => {
     try
     {
       // Fetch random posts along with their comments and topic information
@@ -81,9 +81,15 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         order: Sequelize.literal('RAND()'), // Fetch random posts
         limit: 10, // Limit to a certain number of posts
       });
-
+      let result;
       const posts = postsData.map((post) => post.get({ plain: true }));
-      res.render('feed', { posts: posts, user: req.user.username, isAuthenticated: req.isAuthenticated() }); // Pass the authenticated user to the template
+      if (req.user){
+      result = { posts: posts, user: req.user.username }
+      }
+      else {
+      result = { posts: posts }
+      }
+      res.render('feed', result ); // Pass the authenticated user to the template
     } catch (error)
     {
       console.log(error);
@@ -116,9 +122,10 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
       return plainTopic;
     });
-
-    res.render('addPost', { topics: topics, user: req.user.username });
+    
+    res.render('addPost', { topics: topics, user: req.user.username, userId: req.user.user_id });
   })
+
 
   router.post('/addPost', async (req, res) => {
     try {
@@ -129,16 +136,16 @@ router.get('/profile', isAuthenticated, async (req, res) => {
   
       if (selectedTopic) {
         // Create a new post in the database with the correct topic_id
-        await Post.create({
+        newestPost = await Post.create({
           user_id: user_id,
           title: title,
           topic_id: selectedTopic.topic_id, // Set the correct topic_id here
           text_content: post,
           // Other fields as needed
         });
-  
+  // console.log('WHYYYYYYYYY')
         // Redirect to home page after successful submission
-        return res.redirect('/');
+        return res.redirect(('/posts/' + newestPost.post_id));
       }
   
       // Handle case where the selected topic doesn't exist
@@ -149,8 +156,9 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
   });
   
-  router.get('/posts/:postId', async (req, res) => {
-    try {
+
+
+  router.get('/posts/:postId', isAuthenticated, async (req, res) => {
         const postId = req.params.postId;
         
         // Find the post and its associated comments
@@ -160,20 +168,17 @@ router.get('/profile', isAuthenticated, async (req, res) => {
                 User
             ]
         });
-
         // Retrieve the user ID from the cookie
+        const allUsers = await User.findAll(); // Fetch all users from your database
         const currentUserId = await req.cookies.userId;
-        console.log('Current user ID:', currentUserId); // Add this line for debugging
-
-        if (!post) {
-            return res.status(404).send('Post not found');
-        }
-
-        res.render('post', { currentUser: currentUserId, comments: post.comments, postTitle: post.title, post: post, textContent: post.text_content, postLikes: post.likes});
-    } catch (error) {
-        console.error('Error fetching post:', error);
-        res.status(500).send('An error occurred while fetching the post.');
-    }
+        const userMap = await allUsers.reduce((map, user) => {
+          map[user.user_id] = { username: user.username };
+          return map;
+        });
+        // console.log(post.comments)
+        // console.log('Current user ID:', currentUserId); // Add this line for debugging
+        // console.log('userMap:', userMap);
+        res.render('post', {userMap: userMap, currentUser: currentUserId, comments: post.comments, postTitle: post.title, post: post, textContent: post.text_content, postLikes: post.likes});
 });
 
 

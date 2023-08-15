@@ -23,7 +23,11 @@ Comment.init(
     },
     // Defining the comment_poster_id attribute
     comment_poster_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    post_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
     // Defining the likes attribute

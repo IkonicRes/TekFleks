@@ -19,7 +19,7 @@ Post.init(
     },
     // Define the poster_id attribute
     poster_id: { 
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
     // Define the likes attribute
@@ -40,6 +40,12 @@ Post.init(
       validate: {
         len: [1]
       }
+    },
+    // Defining the created_at attribute
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
     // Define the media_url attribute
     media_url: { 

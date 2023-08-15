@@ -22,7 +22,10 @@
     <br>
     <h2>Welcome to Your Profile, {{user}}!</h2>
     <!-- Display a welcome message with the user's name -->
-    <h3>Your Posts:</h3>
+    <div id="profile-add-post">
+        <h3>Your Posts:</h3>
+        <button type="button" onclick="redirectToAddPost()" id="post-button">Create Post</button>
+    </div>
     {{#if userPosts.length}}
     <!-- If the user has posts -->
     <ul class="post-list">
@@ -34,6 +37,7 @@
                 <!-- Display the post title -->
                 <p>{{post.dataValues.text_content}}</p>
                 <!-- Display the post content -->
+                <p>Written on: {{formatDate post.dataValues.created_at}}</p>
             </a>
         </div>
         {{/each}}

@@ -20,11 +20,16 @@
             window.location.href = '/addPost';
         }
     </script>
+    <script type = "text/javascript">
+        function reloadPage() {
+            window.location.reload();
+        }
+    </script>
 </head>
 
 <body>
     <!-- Output the value of the 'isAuthenticated' variable to the console -->
-    {{consoleLog 'IsAuthenticated:' isAuthenticated}}
+    {{!-- {{consoleLog 'IsAuthenticated:' isAuthenticated}} --}}
 
     <!-- Define the header section of the page -->
     <header>
@@ -51,7 +56,7 @@
                         <!-- Display a welcome message with the username -->
                         <p>Welcome, {{user}}!</p>
                         <!-- Output the value of the 'user' variable to the console -->
-                        {{consoleLog 'User:' user}}
+                        {{!-- {{consoleLog 'User:' user}} --}}
                     {{/isTemplate}}
                 {{/if}}
             </div>
