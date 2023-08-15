@@ -94,7 +94,7 @@ app.use((err, req, res, next) => {
 });
 
 // Sync the sequelize models to the database and start the server
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
   axios.defaults.baseURL = '127.0.0.1:3001';
   app.listen(PORT, () => {
     console.log(`App listening on port !`);
