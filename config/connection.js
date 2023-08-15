@@ -11,6 +11,10 @@ const sequelize = process.env.DATABASE_URL
       host: process.env.DB_HOST, // Set the database host
       dialect: 'postgres', // Set the database dialect to MySQL
       dialectOptions: {
+        ssl: {
+          require: true, // Require SSL connection
+          rejectUnauthorized: false, // Accept self-signed certificates (for Heroku)
+        },
         decimalNumbers: true, // Enable support for decimal numbers
       },
     });
