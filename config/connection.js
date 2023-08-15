@@ -9,7 +9,7 @@ const sequelize = process.env.DATABASE_URL
   ? new Sequelize(process.env.JAWSDB_URL) // Use JawsDB URL if available
   : new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
       host: process.env.DB_HOST, // Set the database host
-      dialect: 'mysql', // Set the database dialect to MySQL
+      dialect: 'postgres', // Set the database dialect to MySQL
       dialectOptions: {
         decimalNumbers: true, // Enable support for decimal numbers
       },
