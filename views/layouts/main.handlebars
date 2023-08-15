@@ -47,7 +47,13 @@
                 {{#if user}}
                 <!-- Display the logout button if the user is logged in -->
                 <a href="/logout" class="logout-button">Logout</a>
+                {{else}}
+                    {{#unlessTemplate 'login' body}}
+                <!-- Display the login button if the user is not logged in -->
+                    <a href="/login" class="logout-button">Login</a>
+                    {{/unlessTemplate}}
                 {{/if}}
+
 
                 <!-- Check if the user is authenticated -->
                 {{#if isAuthenticated}}

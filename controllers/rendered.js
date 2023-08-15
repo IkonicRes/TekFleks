@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Topic, Post, Comment, User } = require('../models');
+const { Topic, Post, Comment, User, Like } = require('../models');
 const { Sequelize } = require('../config/connection')
 const { isAuthenticated } = require('../utils/auth');
 
@@ -42,7 +42,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       include: {
         model: Post,
         include: [
-          { model: Comment, order: [['likes', 'DESC']] }, // Order comments by likes to get top comment
+          { model: Comment, order: [['likeys', 'DESC']] }, // Order comments by likes to get top comment
           // Include any other necessary associations
         ],
       },
@@ -102,7 +102,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       include: {
         model: Post,
         include: [
-          { model: Comment, order: [['likes', 'DESC']] }, // Order comments by likes to get top comment
+          { model: Comment, order: [['likeys', 'DESC']] }, // Order comments by likes to get top comment
           // Include any other necessary associations
         ],
       },
@@ -159,28 +159,154 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
 
   router.get('/posts/:postId', isAuthenticated, async (req, res) => {
-        const postId = req.params.postId;
-        
-        // Find the post and its associated comments
-        const post = await Post.findByPk(postId, {
-            include: [
-                { model: Comment, include: User, order: [['date_created', 'ASC']] },
-                User
-            ]
-        });
-        // Retrieve the user ID from the cookie
-        const allUsers = await User.findAll(); // Fetch all users from your database
-        const currentUserId = await req.cookies.userId;
-        const userMap = await allUsers.reduce((map, user) => {
+    const postId = req.params.postId;
+  
+    try {
+      // Find the post and its associated comments
+      const post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: User, order: [['created_at', 'ASC']] },
+          User,
+        ],
+      });
+      const allUsers = await User.findAll(); // Fetch all users from your database
+      // Populate the userMap
+      const currentUserId = await req.cookies.userId;
+      const userMap = allUsers.reduce((map, user) => {
           map[user.user_id] = { username: user.username };
           return map;
-        });
-        // console.log(post.comments)
-        // console.log('Current user ID:', currentUserId); // Add this line for debugging
-        // console.log('userMap:', userMap);
-        res.render('post', {userMap: userMap, currentUser: currentUserId, comments: post.comments, postTitle: post.title, post: post, textContent: post.text_content, postLikes: post.likes});
-});
+      }, {});
+  
+      console.log('User Map:', userMap);
+      console.log('Comments:', post.comments);
+      console.log('Post or Comment Data:', post.dataValues.created)
+      // Render the 'post' view with necessary data
+      res.render('post', {
+          date: post.dataValues.created_at,
+          userMap: userMap,
+          currentUser: currentUserId,
+          comments: post.comments, // Make sure post.comments is an array
+          postTitle: post.title,
+          post: post,
+          textContent: post.text_content,
+          postLikes: post.likeys
+      });
 
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred.');
+  }
+  });
+  
+  
+
+  
+
+  router.post('/posts/:postId/like', isAuthenticated, async (req, res) => {
+    try {
+      const postId = req.params.postId;
+      const userId = req.user.user_id;
+      console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
+      const commentId = req.query.commentId; // Use query parameter to differentiate post and comment likes
+      const post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: User, order: [['created_at', 'ASC']] },
+          User,
+        ],
+      });
+      const allUsers = await User.findAll(); // Fetch all users from your database
+      // Populate the userMap
+      const currentUserId = await req.cookies.userId;
+      const userMap = allUsers.reduce((map, user) => {
+          map[user.user_id] = { username: user.username };
+          return map;
+      }, {});
+      // Check if the user has already liked the post or comment
+      const existingLike = await Like.findOne({
+        where: {
+          user_id: userId,
+          post_id: postId,
+        },
+      });
+  
+      if (existingLike) {
+        const errorMessage = 'You have already liked this.';
+        
+        return res.render('post', { errorMessage,           
+          date: post.dataValues.created_at,
+          userMap: userMap,
+          currentUser: currentUserId,
+          comments: post.comments, // Make sure post.comments is an array
+          postTitle: post.title,
+          post: post,
+          textContent: post.text_content,
+          postLikes: post.likeys});
+      }
+  
+      // Increment the post's or comment's like count
+      const likeIncrementData = commentId ? { comment_id: commentId } : { post_id: postId };
+      const [updatedRows] = await Post.increment('likes', { where: likeIncrementData });
+  
+      if (updatedRows === 0) {
+        // This means the post or comment to be liked does not exist
+        const errorMessage = 'The post or comment you are trying to like does not exist.';
+        return res.render('post', { errorMessage,           
+          date: post.dataValues.created_at,
+          userMap: userMap,
+          currentUser: currentUserId,
+          comments: post.comments, // Make sure post.comments is an array
+          postTitle: post.title,
+          post: post,
+          textContent: post.text_content,
+          postLikes: post.likeys});
+      } else if (updatedRows > 1) {
+        // This indicates an unexpected situation where more than one row was updated
+        const errorMessage = 'An unexpected error occurred while updating the like count.';
+        return res.render('post', { errorMessage,           
+          date: post.dataValues.created_at,
+          userMap: userMap,
+          currentUser: currentUserId,
+          comments: post.comments, // Make sure post.comments is an array
+          postTitle: post.title,
+          post: post,
+          textContent: post.text_content,
+          postLikes: post.likeys});
+      }
+      
+  
+      // Create a new Like record to track the user's like
+      await Like.create({
+        is_comment: !!commentId,
+        user_id: userId,
+        post_id: commentId ? null : postId,
+        comment_id: commentId ? commentId : null,
+      });
+  
+      // Redirect back to the same post route after processing the like
+      return res.render('post', { errorMessage,           
+        date: post.dataValues.created_at,
+        userMap: userMap,
+        currentUser: currentUserId,
+        comments: post.comments, // Make sure post.comments is an array
+        postTitle: post.title,
+        post: post,
+        textContent: post.text_content,
+        postLikes: post.likeys});;
+    } catch (error) {
+      console.error('Error adding like:', error);
+      return res.render('post', { errorMessage,           
+        date: post.dataValues.created_at,
+        userMap: userMap,
+        currentUser: currentUserId,
+        comments: post.comments, // Make sure post.comments is an array
+        postTitle: post.title,
+        post: post,
+        textContent: post.text_content,
+        postLikes: post.likeys});
+    }
+  });
+  
+  
 
 
   router.get('/topics', isAuthenticated, async (req, res) => {
@@ -190,7 +316,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         include: {
           model: Post,
           include: [
-            { model: Comment, order: [['likes', 'DESC']] }, // Order comments by likes to get top comment
+            { model: Comment, order: [['likeys', 'DESC']] }, // Order comments by likes to get top comment
             // Include any other necessary associations
           ],
         },
@@ -241,7 +367,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
 });
 
-  router.get('/about', isAuthenticated, (req, res) => {
+  router.get('/about', (req, res) => {
     res.render('about');
   })
 

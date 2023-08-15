@@ -10,14 +10,21 @@
         {{#if (ownsPostOrComment currentUser post.dataValues.user_id)}}
     
             <!-- Display a delete button for the post -->
-            <button class="delete-button" data-id="{{post.post_id}}" data-type="post">Delete Post</button>
+            <button class="delete-button" data-id="{{post.post_id}}" data-type="post" target="_self">Delete Post</button>
         {{/if}}
         <!-- Display the name of the user who posted the content -->
         <p>Posted by: {{getUserFromId (number post.dataValues.user_id) posts}}</p>
         <!-- Display the date the user posted the content -->
         <p>Written on: {{formatDate post.dataValues.created_at}}</p>
         <!-- Display the number of likes for the post -->
-        <p>Likes: {{postLikes}}</p>
+        <form action="/posts/{{post.dataValues.post_id}}/like" method="POST">
+        <button class="like-button" type="submit">Like</button>
+        </form>
+        <span class="likes">{{post.dataValues.likes}} Likes</span>
+          <!-- Display the error message if it exists -->
+        {{#if errorMessage}}
+            <p class="error-message">{{ errorMessage }}</p>
+        {{/if}}
         <section class="comments">
             <h3>Comments</h3>
             <!-- Form to add a new comment -->
@@ -26,11 +33,16 @@
                 {{!-- {{consoleLog post}} --}}
                 <input type="hidden" name="comment_poster_id" value="{{ currentUser }}">
                 <input type="hidden" name="post_id" value="{{ post.dataValues.post_id }}">
-                <textarea id="content" name="content" placeholder="Write your comment here"></textarea>
+                <textarea id="comment" name="content" placeholder="Write your comment here"></textarea>
                 <!-- Button to submit the comment -->
-                <button class="login-button" type="submit" target="_self">Add Comment</button>
+                <div class="add-comment">
+                    <button class="like-button" type="submit" target="_self">Add Comment</button>
+                </div>
             </form>
             <!-- Iterate over each comment -->
+            {{consoleLog 'Comment Poster ID:' comment.dataValues.comment_poster_id}}
+{{consoleLog 'User Map:' userMap}}
+{{consoleLog 'Comments:' comments}}
             {{!-- {{#with userMap as |outerMap|}} --}}
                 {{#each comments as |comment|}}
                 <article class="comment subsections">
@@ -41,10 +53,17 @@
                     <p>Commented by: {{getUserFromId (number comment.dataValues.comment_poster_id) userMap comments}}</p>
                     <date>On: {{formatDate comment.dataValues.created_at}}</date>
                     <!-- Check if the comment has any likes -->
-                    {{#if comments.likes}}
+                    <!-- Display the number of likes for the post -->
+                    <form action="/posts/{{post.dataValues.post_id}}/like" method="POST">
+                    <input type="hidden" name="comment_id" value="{{comment.dataValues.comment_id}}">
+                    <button class="like-button" type="submit">Like</button>
+                    </form>
+                    <span class="likes">{{likes}} Likes</span>
+                    {{#if comment.likes}}
                         <!-- Display the number of likes for the comment -->
-                        <p>Likes: {{comment.likes}}</p>
+                        <p>Likes: {{comment.dataValues.likes}}</p>
                     {{/if}}
+                    
                 </article>
                 {{/each}}
             {{!-- {{/with}} --}}

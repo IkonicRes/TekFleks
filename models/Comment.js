@@ -31,7 +31,7 @@ Comment.init(
       allowNull: false,
     },
     // Defining the likes attribute
-    likes: {
+    likeys: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
