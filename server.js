@@ -17,7 +17,7 @@ const authRoutes = require('./controllers/auth');
 const flash = require('connect-flash');
 
 // Set the port from the environment or use 3001
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5432;
 
 // Import the axios library
 const axios = require('axios');
