@@ -84,6 +84,54 @@ router.put('/:id', async (req, res) => {
     res.status(400).json(error);
   }
 });
+router.post('/:id/del', async (req, res) => {
+  try {
+    // Update the post with the given ID using the request body
+    await Post.destroy( {
+      where: {
+        post_id: req.params.id,
+      },
+    });
+    // Retrieve the updated post by its ID
+    // Send a 200 status code and the updated post data as a JSON response
+    return res.redirect('/');
+  } catch (error) {
+    console.log(error)
+    // If there's an error, send a 400 status code and the error message as a JSON response
+    res.status(400).json(error);
+  }
+});
+
+router.post('/:id/new', async (req, res) => {
+  try {
+    posts = await Post.findAll()
+    console.log('posts', posts)
+    console.log('post id', req.params.id) 
+    // Update the post with the given ID using the request body
+    const updateOptions = {
+      where: {
+        post_id: parseInt(req.params.id),
+      },
+    };
+    
+    console.log('Update Options:', req);
+    
+    const [rowsUpdated] = await Post.update(req.body, updateOptions);
+    console.log('Rows Updated:', rowsUpdated);
+    console.log(rowsUpdated)
+    if (rowsUpdated === 0) {
+      return res.status(404).json({ error: 'Post not found.' });
+    }
+    const updatedPost = await Post.findByPk(req.params.id);
+    return res.redirect('/posts/' + req.params.id);
+    // Retrieve the updated post by its ID
+    // Send a 200 status code and the updated post data as a JSON response
+  } catch (error) {
+    console.log(error)
+    // If there's an error, send a 400 status code and the error message as a JSON response
+    res.status(400).json(error);
+  }
+});
 
 // DELETE a post
 router.delete('/:id', async (req, res) => {
@@ -91,7 +139,7 @@ router.delete('/:id', async (req, res) => {
     // Delete the post with the given ID
     await Post.destroy({
       where: {
-        id: req.params.id,
+        post_id: req.params.id,
       },
     });
     // Send a 204 status code (No Content

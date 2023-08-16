@@ -132,6 +132,11 @@ main {
     width: 69vw;
     height: 45vh;
 }
+#editboxSmall {
+    background-color: rgba(0, 200, 255, 0.759);
+    width: 66.25vw;
+    height: 20vh;
+}
 #profile-add-post{
     display: flex;
     flex-direction: row;
@@ -286,7 +291,8 @@ h4 {
 #post {
     width: 40vw;
     height: 80vh;
-    vertical-align: text-top
+    vertical-align: text-top;
+    background-color: rgba(0, 200, 255, 0.759);
 }
 
 #post-form {

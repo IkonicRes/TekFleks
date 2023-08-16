@@ -67,7 +67,7 @@
                 {{#each post.comments as |comment|}}
                 <article id="Comment-{{comment.comment_id}}" class="comment subsections">
                     <!-- Display the comment content -->
-                    <p>{{comment.content}}</p>
+                    <textarea id="editboxSmall" name="text_content">{{{comment.content}}}</textarea>
                     <!-- Display the username of the user who commented -->
                     {{consoleLog 'Current Username: ' user}}
                     <p>Commented by: {{comment.user.username}}</p>
@@ -82,18 +82,16 @@
                     <span class="likes">{{comment.likeys}} Likes</span>
                     {{#if (ownsPostOrComment currentUser post.poster_id)}}
                         <!-- Display a delete button for the post -->
-                        <form action="/api/comments/{{comment.comment_id}}/del" method="POST">
+                        <button class="login-button like-button" data-id=="{{comment.comment_id}}" onclick="window.location.href='/posts/{{../post.post_id}}#Comment-{{comment.comment_id}}'">Cancel</button>
+                        <form action="/api/comments/{{comment.comment_id}}/new" method="POST">
                         <input type="hidden" name="post_id" value="{{../post.post_id}}">
-                        <button class="login-button like-button" data-id=="{{comment.comment_id}}">Delete Comment</button>
-                        </form>
-                        <form action="/posts/{{../post.post_id}}/{{comment.comment_id}}/edit" method="POST">
-                        <button class="login-button like-button" data-id="{{../post.post_id}}" type="submit">Edit Comment</button>
+                        <button class="login-button like-button" data-id="{{../post.post_id}}" type="submit">Save Edit</button>
                         </form>
                         <div id="modalOverlay" class="modal">
                             <div class="modal-content">
                                 <p>Are you sure you want to delete this post?</p>
                                 <button id="confirmDeleteCommentButton" class="login-button like-button" data-id="{{{post.post_id}}}" target="_parent">Confirm Delete</button>
-                                <button id="cancelDeleteCommentButton" class="login-button like-button" onclick="hideModal()">Cancel</button>
+                                <button id="cancelDeleteCommentButton" class="login-button like-button" onclick="window.location.href='/posts/{{{post.post_id}}}#{{comment.comment_id}}">Cancel</button>
                             </div>
                         </div>
                     {{/if}}
@@ -106,12 +104,14 @@
     </article>
 </section>
 <script>
-function showModal() {
-    document.getElementById('modalOverlay').style.display = 'block';
-}
-function hideModal() {
-    document.getElementById('modalOverlay').style.display = 'none';
-}
+    // Get the commentId from the template
+    const commentId = "{{commentId}}";
 
-
+    // Check if the commentId is present and scroll to the comment section
+    if (commentId) {
+        const commentSection = document.getElementById(`Comment-${commentId}`);
+        if (commentSection) {
+            commentSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 </script>

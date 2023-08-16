@@ -66,21 +66,7 @@ module.exports = {
     } 
     );},
 
-  deletePost: async function (postId) {
-    try {
-      const response = await fetch(`/api/posts/${postId}`, {
-        method: 'DELETE',
-      });
 
-      if (response.status === 204) {
-        console.log('Post deleted successfully.');
-      } else {
-        console.error('Error deleting post:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
-  },
   incrementLike: async function (postId) {
     try {
         const post = await Post.findByPk(postId);

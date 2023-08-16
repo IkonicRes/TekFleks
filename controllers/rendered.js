@@ -195,7 +195,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       res.render('post', {
           // date: post.dataValues.created_at,
           // userMap: userMap,
-          deletePost: deletePost,
+          // deletePost: deletePost,
           currentUser: currentUserId,
           // comments: post.comments, // Make sure post.comments is an array
           // postTitle: post.title,
@@ -214,7 +214,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
   });
   
   
-  router.get('/posts/:postId/edit', isAuthenticated, async (req, res) => {
+  router.post('/posts/:postId/edit', isAuthenticated, async (req, res) => {
     const postId = req.params.postId;
     const post = await Post.findByPk(postId, {
       include: [
@@ -227,6 +227,25 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     const plainPost = post.get({ plain: true });
     res.render('editPost', { currentUser: currentUserId, post: plainPost});
   })
+
+  
+
+  router.post('/posts/:postId/:commentId/edit', isAuthenticated, async (req, res) => {
+    const commentId = req.params.commentId;
+    const postId = req.params.postId;
+    const comment = await Comment.findByPk(commentId, {
+      include: [{ model: User }],
+    });
+    const post = await Post.findByPk(postId, {
+      include: [
+        { model: Comment, include: [{ model: User }], order: [['created_at', 'ASC']] },
+        { model: User },
+      ],
+    });
+    const currentUserId = await req.cookies.userId;
+    const plainPost = post.get({ plain: true });
+    res.render('editComment', { currentUser: currentUserId, post: plainPost, commentId }); // Pass commentId to the view
+  });
 
   
 

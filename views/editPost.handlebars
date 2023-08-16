@@ -3,7 +3,8 @@
         <!-- Display the post title -->
         <h2><q>{{post.title}}</q></h2>
         <!-- Display the post content -->
-        <textarea id="editbox">{{post.text_content}}</textarea>
+            <form action="/api/posts/{{post.post_id}}/new" method="POST">
+        <textarea id="editbox" name="text_content">{{{post.text_content}}}</textarea>
         <!-- Log the current user to the console with a custom message -->
         {{!-- {{consoleLog 'postLogout:' currentUser}} --}}
         <!-- Check if the current user owns the post or comment -->
@@ -11,9 +12,9 @@
         {{consoleLog "sep"}}
         {{#if (ownsPostOrComment currentUser post.poster_id)}}
             <!-- Display a delete button for the post -->
-            <button class="login-button" data-id="{{post.post_id}}" onclick="window.location.href='/posts/{{post.post_id}}'">Cancel Edit</button>
-            <button class="login-button" data-id="{{post.post_id}}" onclick="saveAndNavigate({{post.post_id}}, '/posts/{{post.post_id}}')">Save Edit</button>
-
+            <button class="login-button like-button" data-id="{{post.post_id}}" onclick="window.location.href='/posts/{{post.post_id}}'">Cancel Edit</button>
+            <button class="login-button like-button" data-id="{{post.post_id}}" type="submit">Save Edit</button>
+            </form>
         {{/if}}
         <input type="hidden" name="post_poster_id" value="{{ number post.poster_id }}">
         {{consoleLog post.poster_id}}
