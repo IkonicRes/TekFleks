@@ -198,7 +198,9 @@ router.get('/profile', isAuthenticated, async (req, res) => {
           currentUser: currentUserId,
           // comments: post.comments, // Make sure post.comments is an array
           // postTitle: post.title,
+          showModal: false,
           post: plainPost,
+
           // textContent: post.text_content,
           // postLikes: post.likeys,
           // posterName: posterUsername, // Pass the converted number to the template
@@ -422,7 +424,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     }
   });
 
-  router.post('/posts/:postId/delete', async (req, res) => {
+  router.post('api/delete/posts/:postId/', async (req, res) => {
     try {
         const postId = req.params.postId;
         const post = await Post.findByPk(postId);

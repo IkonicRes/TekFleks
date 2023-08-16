@@ -127,7 +127,11 @@ main {
 .sidebar {
     position: relative; 
 }
-
+#editbox {
+    background-color: rgba(0, 200, 255, 0.759);
+    width: 69vw;
+    height: 45vh;
+}
 #profile-add-post{
     display: flex;
     flex-direction: row;

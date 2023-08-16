@@ -29,7 +29,58 @@ module.exports = {
   getUserFromId: async (id) => {
     
   },
+  saveAndNavigate: function (postId, navigateUrl) {
+    console.log('AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH')
+    saveEdit(postId)
+        .then(() => {
+            window.location.href = navigateUrl;
+        })
+        .catch(error => {
+            console.error('Error saving edit:', error);
+        });
+},
+  savePost: async function (postId, textAreaContent) {
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+    return new Promise(async (resolve, reject) => {
+      const postData = {
+        text_content: textAreaContent,
+        // Add other necessary attributes here
+      };
 
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.status === 200) {
+        const updatedPost = await response.json();
+        console.log('Post updated successfully:', updatedPost);
+        return updatedPost;
+      } else {
+        console.error('Error updating post:', response.statusText);
+        return null;
+      }
+    } 
+    );},
+
+  deletePost: async function (postId) {
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.status === 204) {
+        console.log('Post deleted successfully.');
+      } else {
+        console.error('Error deleting post:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  },
   incrementLike: async function (postId) {
     try {
         const post = await Post.findByPk(postId);
@@ -44,7 +95,25 @@ module.exports = {
     }
 },
 
-
+deletePost: async function (postId) {
+  // Send a DELETE request to the specified route
+  await fetch(`api/posts/${postId}`, {
+    method: 'DELETE',
+  })
+  .then(response => {
+    if (response.status === 204) {
+      // Successful deletion
+      console.log('Post deleted successfully.');
+      // Perform any additional actions, such as updating the UI
+    } else {
+      // Error in deletion
+      console.error('Error deleting post.');
+    }
+  })
+  .catch(error => {
+    console.error('Error deleting post:', error);
+  });
+},
 
   // Defining a function named "consoleLog" which takes one parameter: loggedData
   consoleLog: function (loggedData) {

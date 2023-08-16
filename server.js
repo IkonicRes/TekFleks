@@ -45,9 +45,9 @@ app.use(cookieParser());
 
 // Create an instance of handlebars with custom helpers
 const hbars = handlebars.create({
-  helpers: helpers
+  helpers: helpers,
+  });
 
-})
 
 try {
   // Set the view engine to handlebars
