@@ -45,6 +45,7 @@ function hideModal() {
         <p>Written on: {{formatDate post.created_at}}</p>
         <!-- Display the number of likes for the post -->
         <form action="/posts/{{post.post_id}}/like" method="POST">
+        <input type="hidden" name="user_id" value="{{ post.user.user_id }}">
         <button class="like-button" type="submit">Like</button>
         </form>
         <span class="likes">{{post.likes}} Likes</span>
