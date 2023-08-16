@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Topic, Post, Comment, User, Like } = require('../models');
 const { Sequelize } = require('../config/connection')
 const { isAuthenticated } = require('../utils/auth');
-
+const { deletePost } = require ('../utils/helpers');
 router.post('/', isAuthenticated, async (req, res) => {
   try {
     const { title, topics, post } = req.body;
@@ -183,7 +183,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       //   }, {});
       // const posterId = post.poster_id;
       const plainPost = post.get({ plain: true });
-      console.log("🚀 ~ file: rendered.js:185 ~ router.get ~ plainPost:", plainPost)
+      // console.log("🚀 ~ file: rendered.js:185 ~ router.get ~ plainPost:", plainPost)
       // const poster = userMap[posterId]; 
       // // Render the 'post' view with necessary data
       // if (poster) {
@@ -195,6 +195,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       res.render('post', {
           // date: post.dataValues.created_at,
           // userMap: userMap,
+          deletePost: deletePost,
           currentUser: currentUserId,
           // comments: post.comments, // Make sure post.comments is an array
           // postTitle: post.title,

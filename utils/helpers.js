@@ -96,23 +96,19 @@ module.exports = {
 },
 
 deletePost: async function (postId) {
-  // Send a DELETE request to the specified route
-  await fetch(`api/posts/${postId}`, {
-    method: 'DELETE',
-  })
-  .then(response => {
-    if (response.status === 204) {
-      // Successful deletion
-      console.log('Post deleted successfully.');
-      // Perform any additional actions, such as updating the UI
+  try {
+    console.log("trying to delete...")
+    postId = Number(postId)
+    const post = await Post.findByPk(postId);
+    if (post) {
+        await post.destroy();
+        console.log('Post deleted successfully.');
     } else {
-      // Error in deletion
-      console.error('Error deleting post.');
+        console.log('Post not found.');
     }
-  })
-  .catch(error => {
+} catch (error) {
     console.error('Error deleting post:', error);
-  });
+}
 },
 
   // Defining a function named "consoleLog" which takes one parameter: loggedData
@@ -121,7 +117,7 @@ deletePost: async function (postId) {
     console.log(loggedData);
   },
   number: function (value) {
-    console.log("🚀 ~ file: helpers.js:78 ~ value:", value)
+    // console.log("🚀 ~ file: helpers.js:78 ~ value:", value)
     
     return Number(value);
   },
@@ -129,7 +125,7 @@ deletePost: async function (postId) {
   ownsPostOrComment: (currentUserId, ownerId) => {
     // console.log("🚀 ~ file: helpers.js:46 ~ currentUserId, ownerId:", currentUserId, ownerId)
     // Checking if the currentUserId is equal to the ownerId
-    console.log("🚀 ~ file: helpers.js:48 ~ currentUserId, ownerId:", currentUserId, ownerId)
+    // console.log("🚀 ~ file: helpers.js:48 ~ currentUserId, ownerId:", currentUserId, ownerId)
     return currentUserId == ownerId;
   },
   // Defining an arrow function named "getCurrentUserIdHelper" which takes one parameter: user
