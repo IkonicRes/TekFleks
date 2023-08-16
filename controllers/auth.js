@@ -66,9 +66,13 @@ router.post('/login', passport.authenticate('local', {
 });
 
 // Logout route
-router.get('/logout', function(req, res) {
-  req.logout(); // This will remove the user's session and passport user property
-  res.redirect('/login'); // Redirect to the login page after successful logout
+router.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+      if (err) {
+          return next(err);
+      }
+      res.redirect('/login'); // Redirect to the login page after successful logout
+  });
 });
 
 module.exports = router; // Export the router for use in other files
