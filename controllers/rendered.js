@@ -229,27 +229,24 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 
   router.post('/posts/:postId/like', isAuthenticated, async (req, res) => {
     try {
-      const postId = req.params.postId;
-      const userId = req.user.user_id;
-      // console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
-      const commentId = req.query.commentId; // Use query parameter to differentiate post and comment likes
-      const post = await Post.findByPk(postId, {
+      let postId = req.params.postId;
+      let post = await Post.findByPk(postId, {
         include: [
-          { model: Comment, include: User, order: [['created_at', 'ASC']] },
-          User,
+          { model: Comment, include: [{model: User}], order: [['created_at', 'ASC']] },
+          { model: User },
         ],
+        
       });
+      let currentUserId = await req.cookies.userId;
+      let plainPost = post.get({ plain: true });
+      // console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
+      const commentId = req.params.commentId; // Use query parameter to differentiate post and comment likes
       const allUsers = await User.findAll(); // Fetch all users from your database
       // Populate the userMap
-      const currentUserId = await req.cookies.userId;
-      const userMap = allUsers.reduce((map, user) => {
-          map[user.user_id] = { username: user.username };
-          return map;
-      }, {});
       // Check if the user has already liked the post or comment
       const existingLike = await Like.findOne({
         where: {
-          user_id: userId,
+          user_id: currentUserId,
           post_id: postId,
         },
       });
@@ -257,15 +254,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       if (existingLike) {
         const errorMessage = 'You have already liked this.';
         
-        return res.render('post', { errorMessage,           
-          date: post.dataValues.created_at,
-          userMap: userMap,
-          currentUser: currentUserId,
-          comments: post.comments, // Make sure post.comments is an array
-          postTitle: post.title,
-          post: post,
-          textContent: post.text_content,
-          postLikes: post.likeys});
+        return res.render('post', {errorMessage, currentUser: currentUserId, post: plainPost})      
       }
   
       // Increment the post's or comment's like count
@@ -275,62 +264,124 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       if (updatedRows === 0) {
         // This means the post or comment to be liked does not exist
         const errorMessage = 'The post or comment you are trying to like does not exist.';
-        return res.render('post', { errorMessage,           
-          date: post.dataValues.created_at,
-          userMap: userMap,
-          currentUser: currentUserId,
-          comments: post.comments, // Make sure post.comments is an array
-          postTitle: post.title,
-          post: post,
-          textContent: post.text_content,
-          postLikes: post.likeys});
+        return res.render('post', {errorMessage, currentUser: currentUserId, post: plainPost})      
       } else if (updatedRows > 1) {
         // This indicates an unexpected situation where more than one row was updated
         const errorMessage = 'An unexpected error occurred while updating the like count.';
-        return res.render('post', { errorMessage,           
-          date: post.dataValues.created_at,
-          userMap: userMap,
-          currentUser: currentUserId,
-          comments: post.comments, // Make sure post.comments is an array
-          postTitle: post.title,
-          post: post,
-          textContent: post.text_content,
-          postLikes: post.likeys});
+        return res.render('post', {errorMessage, currentUser: currentUserId, post: plainPost})      
       }
       
   
       // Create a new Like record to track the user's like
       await Like.create({
         is_comment: !!commentId,
-        user_id: userId,
+        user_id: currentUserId,
         post_id: commentId ? null : postId,
         comment_id: commentId ? commentId : null,
       });
-  
+      post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: [{model: User}], order: [['created_at', 'ASC']] },
+          { model: User },
+        ],
+        
+      });
+      plainPost = post.get({ plain: true });
       // Redirect back to the same post route after processing the like
-      return res.render('post', { errorMessage,           
-        date: post.dataValues.created_at,
-        userMap: userMap,
-        currentUser: currentUserId,
-        comments: post.comments, // Make sure post.comments is an array
-        postTitle: post.title,
-        post: post,
-        textContent: post.text_content,
-        postLikes: post.likeys});;
+      return res.render('post', { currentUser: currentUserId, post: plainPost})      
     } catch (error) {
       console.error('Error adding like:', error);
-      return res.render('post', { errorMessage,           
-        date: post.dataValues.created_at,
-        userMap: userMap,
-        currentUser: currentUserId,
-        comments: post.comments, // Make sure post.comments is an array
-        postTitle: post.title,
-        post: post,
-        textContent: post.text_content,
-        postLikes: post.likeys});
+      postId = req.params.postId;
+      currentUserId = await req.cookies.userId;
+      post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: [{model: User}], order: [['created_at', 'ASC']] },
+          { model: User },
+        ],
+        
+      });
+      plainPost = post.get({ plain: true });
+      return res.render('post', {errorMessage: error, currentUser: currentUserId, post: plainPost})      
     }
   });
   
+  
+  router.post('/posts/:postId/#Comment-:commentId', isAuthenticated, async (req, res) => {
+    try {
+      const postId = req.params.postId;
+      const commentId = req.params.commentId;
+      
+      const comment = await Comment.findByPk(commentId, {
+        include: [{ model: Post, include: [{ model: User }] },
+                 { model: User }],
+      });
+  
+      const currentUserId = await req.cookies.userId;
+      const plainComment = comment.get({ plain: true });
+  
+      // Check if the user has already liked the comment
+      const existingLike = await Like.findOne({
+        where: {
+          user_id: currentUserId,
+          comment_id: commentId,
+        },
+      });
+  
+      if (existingLike) {
+        const errorMessage = 'You have already liked this comment.';
+        return res.render('post', { errorMessage, currentUser: currentUserId, post: plainComment.post });
+      }
+  
+      // Increment the comment's like count
+      const [updatedRows] = await Comment.increment('likeys', { where: { comment_id: commentId } });
+  
+      if (updatedRows === 0) {
+        // This means the comment to be liked does not exist
+        const errorMessage = 'The comment you are trying to like does not exist.';
+        return res.render('post', { errorMessage, currentUser: currentUserId, post: plainComment.post });
+      }
+  
+      // Create a new Like record to track the user's comment like
+      await Like.create({
+        is_comment: true,
+        user_id: currentUserId,
+        comment_id: commentId,
+      });
+  
+      // Refresh the comment data after liking
+      const updatedComment = await Comment.findByPk(commentId, {
+        include: [{ model: Post, include: [{ model: User }] }, { model: User }],
+      });
+  
+      const plainUpdatedComment = updatedComment.get({ plain: true });
+      postId = req.params.postId;
+      currentUserId = await req.cookies.userId;
+      const post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: [{model: User}], order: [['likeys', 'ASC']] },
+          { model: User },
+        ],
+        
+      });
+      plainPost = post.get({ plain: true });
+      // Redirect back to the same post route after processing the like
+      return res.render('post', { currentUser: currentUserId, post: plainPost });
+  
+    } catch (error) {
+      console.error('Error adding comment like:', error);
+      const postId = req.params.postId;
+      const currentUserId = await req.cookies.userId;
+      const post = await Post.findByPk(postId, {
+        include: [
+          { model: Comment, include: [{ model: User }], order: [['created_at', 'ASC']] },
+          { model: User },
+        ],
+      });
+  
+      const plainPost = post.get({ plain: true });
+      return res.render('post', { errorMessage: error, currentUser: currentUserId, post: plainPost });
+    }
+  });
   
 
 

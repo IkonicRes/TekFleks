@@ -51,7 +51,7 @@
 {{!-- {{consoleLog 'Comments:' comments}} --}}
             {{!-- {{#with userMap as |outerMap|}} --}}
                 {{#each post.comments as |comment|}}
-                <article class="comment subsections">
+                <article id="Comment-{{comment.comment_id}}" class="comment subsections">
                     <!-- Display the comment content -->
                     <p>{{comment.content}}</p>
                     <!-- Display the username of the user who commented -->
@@ -60,7 +60,7 @@
                     <date>On: {{formatDate comment.created_at}}</date>
                     <!-- Check if the comment has any likes -->
                     <!-- Display the number of likes for the post -->
-                    <form action="/posts/{{post.post_id}}/like" method="POST">
+                    <form action="/posts/{{../post.post_id}}/sub#Comment-{{comment.comment_id}}" method="POST">
                     <input type="hidden" name="comment_id" value="{{comment.comment_id}}">
                     <button class="like-button" type="submit">Like</button>
                     </form>

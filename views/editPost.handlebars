@@ -64,15 +64,15 @@
                     <input type="hidden" name="comment_id" value="{{comment.comment_id}}">
                     <button class="like-button" type="submit">Like</button>
                     </form>
-                    <span class="likes">{{likes}} Likes</span>
+                    <span class="likes">{{comment.likeys}} Likes</span>
                     {{#if (ownsPostOrComment ../currentUser comment.comment_poster_id)}}
                     <!-- Display a delete button for the post -->
                         <button class="login-button" data-id="{{post.post_id}}" data-type="post" target="_self">Delete Post</button>
                         <button class="login-button" data-id="{{post.post_id}}" data-type="post" target="_self">Update Post</button>
                     {{/if}}
-                    {{#if comment.likes}}
+                    {{#if comment.likeys}}
                         <!-- Display the number of likes for the comment -->
-                        <p>Likes: {{comment.likes}}</p>
+                        <p>Likes: {{comment.likeys}}</p>
                     {{/if}}
                     
                 </article>
