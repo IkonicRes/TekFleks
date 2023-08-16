@@ -97,44 +97,49 @@ router.post('/:id/like',  async (req, res) => {
     let comment_Id = req.params.id;
     let comment = await Comment.findByPk(comment_Id, {
       include: [
+        { model: Like, include: { model: User } },
         { model: User },
-        { model: Like },
       ],
-      
     });
-    let currentUserId = await req.cookies.userId;
+    
     let plainComment = comment.get({ plain: true });
+    let currentUserId = await req.cookies.userId;
+    commentLikes = plainComment.likes;
+    console.log('🚀 ~ file: rendered.js:193 ~ router.post ~ userId:', commentLikes)
     // console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
-    const allUsers = await User.findAll(); // Fetch all users from your database
     // Populate the userMap
     // Check if the user has already liked the post or comment
-    const existingLike = await Like.findOne({
-      where: {
-        user_id: currentUserId,
-        comment_id: comment_Id,
-      },
-    });
-
+    const existingLike = commentLikes.find(like => like.user.user_id == currentUserId);
+    console.log('existingLike:', existingLike);
+    const likeIncrementData = comment_Id ? { comment_id: comment_Id } : { post_id: postId };
     if (existingLike) {
       const errorMessage = 'You have already liked this.';
-      
-      return res.redirect('/posts/' + req.body.post_id);      
+      console.log(errorMessage)
+      await Like.destroy({
+        where: {
+          like_id: existingLike.like_id,
+        },
+      });
+      const [updatedRows] = await Comment.decrement('likeys', { by: 1, where: likeIncrementData });
+      return res.redirect('/posts/' + req.body.post_id + '#Comment-' + comment_Id);      
     }
-
+    const newLike = await Like.create({
+      comment_id: comment_Id,
+      user_id: req.cookies.userId, // Assuming you're using cookies to store user information
+    });
     // Increment the post's or comment's like count
-    const likeIncrementData = comment_Id ? { comment_id: comment_Id } : { post_id: postId };
-    const [updatedRows] = await Comment.increment('likeys', { where: likeIncrementData });
+    const [updatedRows] = await Comment.increment('likeys', { by: 1, where: likeIncrementData });
 
     if (updatedRows === 0) {
       // This means the post or comment to be liked does not exist
       const errorMessage = 'The post or comment you are trying to like does not exist.';
-      return res.redirect('/posts/' + req.body.post_id);   
+      return res.redirect('/posts/' + req.body.post_id + '#Comment-' + comment_Id);   
     } else if (updatedRows > 1) {
       // This indicates an unexpected situation where more than one row was updated
       const errorMessage = 'An unexpected error occurred while updating the like count.';
       return console.log(errorMessage)
     }
-    return res.redirect('/posts/' + req.body.post_id);   
+    return res.redirect('/posts/' + req.body.post_id + '#Comment-' + comment_Id);   
 
   } catch (error) {
     console.error('Error adding like:', error);     
@@ -143,32 +148,26 @@ router.post('/:id/like',  async (req, res) => {
 
 router.post('/:id/new', async (req, res) => {
   try {
-    comments = await Comment.findAll() 
-    // Update the post with the given ID using the request body
-    const updateOptions = {
-      where: {
-        comment_id: parseInt(req.params.id),
-      },
-    };
-    comment = await Comment.findByPk(req.params.id);
-    const plainComment = comment.get({ plain: true });
-    console.log('body: ', plainComment);
-    const [rowsUpdated] = await Comment.update(req.body, updateOptions);
-    console.log('Rows Updated:', rowsUpdated);
-    console.log(rowsUpdated)
-    if (rowsUpdated === 0) {
-      return res.status(404).json({ error: 'Post not found.' });
+    const commentId = parseInt(req.params.id);
+    console.log('Requested Comment ID:', commentId);
+
+    // Find the comment by its ID
+    const comment = await Comment.findByPk(commentId);
+    if (!comment) {
+      console.log('Comment not found.');
+      return res.status(404).json({ error: 'Comment not found.' });
     }
-    const updatedComment = await Comment.findByPk(req.params.id);
-    return res.redirect('/posts/' + req.body.post_id + '#' + req.params.id);
-    // Retrieve the updated post by its ID
-    // Send a 200 status code and the updated post data as a JSON response
+    console.log('comment:', req.body);
+    comment.content = req.body.text_content;
+    await comment.save();
+    // Redirect to the post with the updated comment scrolled into view
+    return res.redirect('/posts/' + req.body.post_id + '#Comment-' + commentId);
   } catch (error) {
-    console.log(error)
-    // If there's an error, send a 400 status code and the error message as a JSON response
+    console.log('Error:', error);
     res.status(400).json(error);
   }
 });
+
 
 
 router.post('/:id/del', async (req, res) => {

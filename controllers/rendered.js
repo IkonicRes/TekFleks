@@ -214,7 +214,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
   });
   
   
-  router.post('/posts/:postId/edit', isAuthenticated, async (req, res) => {
+  router.get('/posts/:postId/edit', isAuthenticated, async (req, res) => {
     const postId = req.params.postId;
     const post = await Post.findByPk(postId, {
       include: [
@@ -273,14 +273,22 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         },
       });
   
+      const likeIncrementData = commentId ? { comment_id: commentId } : { post_id: postId };
       if (existingLike) {
         const errorMessage = 'You have already liked this.';
-        
-        return res.render('post', {errorMessage, currentUser: currentUserId, post: plainPost})      
+        console.log(errorMessage)
+        await Like.destroy({
+          where: {
+            like_id: existingLike.like_id,
+          },
+        });
+        console.log('soooooooo close')
+        const updatedRows = await Post.decrement('likes', { by: 1, where: likeIncrementData });
+        console.log('updatedRows:',updatedRows)
+        return res.redirect('/posts/' + postId);      
       }
   
       // Increment the post's or comment's like count
-      const likeIncrementData = commentId ? { comment_id: commentId } : { post_id: postId };
       const [updatedRows] = await Post.increment('likes', { where: likeIncrementData });
   
       if (updatedRows === 0) {

@@ -80,7 +80,9 @@
                     <button class="like-button" type="submit">Like</button>
                     </form>
                     <span class="likes">{{comment.likeys}} Likes</span>
-                    {{#if (ownsPostOrComment currentUser post.poster_id)}}
+                    {{consoleLog comment.comment_poster_id}}
+                    {{consoleLog ../currentUser}}
+                    {{#if (ownsPostOrComment ../currentUser comment.comment_poster_id)}}
                         <!-- Display a delete button for the post -->
                         <form action="/api/comments/{{comment.comment_id}}/del" method="POST">
                         <input type="hidden" name="post_id" value="{{../post.post_id}}">
@@ -89,13 +91,6 @@
                         <form action="/posts/{{../post.post_id}}/{{comment.comment_id}}/edit" method="POST">
                         <button class="login-button like-button" data-id="{{../post.post_id}}" type="submit">Edit Comment</button>
                         </form>
-                        <div id="modalOverlay" class="modal">
-                            <div class="modal-content">
-                                <p>Are you sure you want to delete this post?</p>
-                                <button id="confirmDeleteCommentButton" class="login-button like-button" data-id="{{{post.post_id}}}" target="_parent">Confirm Delete</button>
-                                <button id="cancelDeleteCommentButton" class="login-button like-button" onclick="hideModal()">Cancel</button>
-                            </div>
-                        </div>
                     {{/if}}
                     
                 </article>

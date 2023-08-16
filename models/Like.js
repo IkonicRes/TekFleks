@@ -20,6 +20,10 @@ Like.init(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    comment_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+    },
     // Defining the user_id attribute
     user_id: {
       type: DataTypes.INTEGER.UNSIGNED,

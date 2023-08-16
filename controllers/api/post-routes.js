@@ -104,9 +104,6 @@ router.post('/:id/del', async (req, res) => {
 
 router.post('/:id/new', async (req, res) => {
   try {
-    posts = await Post.findAll()
-    console.log('posts', posts)
-    console.log('post id', req.params.id) 
     // Update the post with the given ID using the request body
     const updateOptions = {
       where: {
@@ -114,15 +111,11 @@ router.post('/:id/new', async (req, res) => {
       },
     };
     
-    console.log('Update Options:', req);
-    
-    const [rowsUpdated] = await Post.update(req.body, updateOptions);
-    console.log('Rows Updated:', rowsUpdated);
-    console.log(rowsUpdated)
-    if (rowsUpdated === 0) {
-      return res.status(404).json({ error: 'Post not found.' });
-    }
-    const updatedPost = await Post.findByPk(req.params.id);
+    console.log('Update Options:', updateOptions);
+    console.log
+    const post = await Post.findByPk(req.params.id);
+    post.text_content = req.body.text_content
+    await post.save()
     return res.redirect('/posts/' + req.params.id);
     // Retrieve the updated post by its ID
     // Send a 200 status code and the updated post data as a JSON response
