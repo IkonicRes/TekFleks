@@ -29,7 +29,7 @@ Post.init(
     // Define the likes attribute
     likes: { 
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       defaultValue: 0,
     },
     // Define the title attribute
