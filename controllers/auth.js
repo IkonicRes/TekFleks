@@ -67,6 +67,7 @@ router.post('/login', passport.authenticate('local', {
 
 // Logout route
 router.get('/logout', function(req, res, next) {
+  res.clearCookie('userId')
   req.logout(function(err) {
       if (err) {
           return next(err);
