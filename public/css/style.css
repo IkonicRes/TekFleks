@@ -270,7 +270,7 @@ h4 {
 }
 
 .single-post {
-    /* width:  79.5vw!important; */
+    width:  79.5vw!important;
     padding: 1vh 5vw;
 }
 .modal {
