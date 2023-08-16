@@ -67,9 +67,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Use session middleware
 app.use(session({
-  secret: 'your-secret-key',
+  secret: 'filliflouusloa',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7
+}
 }));
 
 // Use flash middleware from connect-flash

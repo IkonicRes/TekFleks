@@ -3,7 +3,7 @@
         <!-- Display the post title -->
         <h2><q>{{post.title}}</q></h2>
         <!-- Display the post content -->
-        <p>{{post.text_content}}</p>
+        <textarea>{{post.text_content}}</textarea>
         <!-- Log the current user to the console with a custom message -->
         {{!-- {{consoleLog 'postLogout:' currentUser}} --}}
         <!-- Check if the current user owns the post or comment -->
@@ -11,8 +11,8 @@
         {{consoleLog "sep"}}
         {{#if (ownsPostOrComment currentUser post.poster_id)}}
             <!-- Display a delete button for the post -->
-            <button class="login-button" postId="{{post.post_id}}" data-type="get" target="/_self/edit">Delete Post</button>
-            <button class="login-button" data-id="{{post.post_id}}" onclick="window.location.href='/posts/{{post.post_id}}/edit'">Update Post</button>
+            <button class="login-button" data-id="{{post.post_id}}" onclick="window.location.href='/posts/{{post.post_id}}'">Cancel Edit</button>
+            <button class="login-button" data-id="{{post.post_id}}" data-type="post" target="_self">Save Edit</button>
         {{/if}}
         <input type="hidden" name="post_poster_id" value="{{ number post.poster_id }}">
         {{consoleLog post.poster_id}}

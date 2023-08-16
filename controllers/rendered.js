@@ -211,7 +211,19 @@ router.get('/profile', isAuthenticated, async (req, res) => {
   });
   
   
-  
+  router.get('/posts/:postId/edit', isAuthenticated, async (req, res) => {
+    const postId = req.params.postId;
+    const post = await Post.findByPk(postId, {
+      include: [
+        { model: Comment, include: [{model: User}], order: [['created_at', 'ASC']] },
+        { model: User },
+      ],
+      
+    });
+    const currentUserId = await req.cookies.userId;
+    const plainPost = post.get({ plain: true });
+    res.render('editPost', { currentUser: currentUserId, post: plainPost});
+  })
 
   
 

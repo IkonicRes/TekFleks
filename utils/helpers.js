@@ -60,7 +60,8 @@ module.exports = {
   ownsPostOrComment: (currentUserId, ownerId) => {
     // console.log("🚀 ~ file: helpers.js:46 ~ currentUserId, ownerId:", currentUserId, ownerId)
     // Checking if the currentUserId is equal to the ownerId
-    return currentUserId === ownerId;
+    console.log("🚀 ~ file: helpers.js:48 ~ currentUserId, ownerId:", currentUserId, ownerId)
+    return currentUserId == ownerId;
   },
   // Defining an arrow function named "getCurrentUserIdHelper" which takes one parameter: user
   getCurrentUserIdHelper: (user) => {
