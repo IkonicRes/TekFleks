@@ -46,6 +46,7 @@ app.use(cookieParser());
 // Create an instance of handlebars with custom helpers
 const hbars = handlebars.create({
   helpers: helpers
+
 })
 
 try {
@@ -93,8 +94,13 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
+// hbars.handlebars.registerHelper('async', async function(context, options) {
+//   const value = await context;
+//   return new hbars.handlebars.SafeString(value);
+// });
+
 // Sync the sequelize models to the database and start the server
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({force: false}).then(() => {
   axios.defaults.baseURL = '127.0.0.1:3001';
   app.listen(PORT, () => {
     console.log(`App listening on port !`);

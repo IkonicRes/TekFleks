@@ -26,27 +26,9 @@ module.exports = {
     // If it doesn't, executing the function passed as options.inverse and passing it the current context (this)
     return options.inverse(this);
   },
-  getUserFromId: function (id, userMap, comments) {
-    if (!comments || !Array.isArray(comments)) {
-        return 'Invalid comments data: Comments should be an array';
-    }
-
-    const comment = comments.find(comment => comment.dataValues.comment_poster_id === id);
-    if (!comment) {
-        return 'Commenter not found';
-    }
-
-    if (!userMap) {
-        return 'Invalid comments data: User map not provided';
-    }
-
-    const user = userMap[id];
-    if (!user) {
-        return 'Commenter user not found in user map';
-    }
-
-    return user.username;
-},
+  getUserFromId: async (id) => {
+    
+  },
 
   incrementLike: async function (postId) {
     try {
@@ -64,18 +46,19 @@ module.exports = {
 
 
 
-
   // Defining a function named "consoleLog" which takes one parameter: loggedData
   consoleLog: function (loggedData) {
     // Logging the loggedData to the console
     console.log(loggedData);
   },
   number: function (value) {
+    console.log("🚀 ~ file: helpers.js:78 ~ value:", value)
+    
     return Number(value);
   },
   // Defining an arrow function named "ownsPostOrComment" which takes two parameters: currentUserId and ownerId
   ownsPostOrComment: (currentUserId, ownerId) => {
-    console.log("🚀 ~ file: helpers.js:46 ~ currentUserId, ownerId:", currentUserId, ownerId)
+    // console.log("🚀 ~ file: helpers.js:46 ~ currentUserId, ownerId:", currentUserId, ownerId)
     // Checking if the currentUserId is equal to the ownerId
     return currentUserId === ownerId;
   },
@@ -85,7 +68,7 @@ module.exports = {
     return user ? user.id : null;
   },
   formatDate: (date) => {
-    console.log('Debug - date:', date);
+    // console.log('Debug - date:', date);
     const options = {
       year: 'numeric',
       month: '2-digit',

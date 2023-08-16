@@ -19,6 +19,7 @@
       </a>
       <!-- Display the post content -->
       <p>{{post.text_content}}</p>
+      <p>By: {{formatDate post.user.username}}</p>
       <p>Written on: {{formatDate post.created_at}}</p>
     </section>
   </article>

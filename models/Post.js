@@ -21,6 +21,10 @@ Post.init(
     poster_id: { 
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+      references: {
+        model: 'user',
+        key: 'user_id',
+      },
     },
     // Define the likes attribute
     likes: { 

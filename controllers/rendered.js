@@ -30,7 +30,7 @@ router.post('/', isAuthenticated, async (req, res) => {
 router.get('/profile', isAuthenticated, async (req, res) => {
   try
   {
-    console.log('Is authenticated:', req.isAuthenticated());
+    // console.log('Is authenticated:', req.isAuthenticated());
     const userPosts = await Post.findAll({
       where: { poster_id: req.user.user_id }, // Fetch posts by the authenticated user
       include: [
@@ -77,6 +77,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         include: [
           { model: Comment },
           { model: Topic },
+          { model: User },
         ],
         order: Sequelize.literal('RAND()'), // Fetch random posts
         limit: 10, // Limit to a certain number of posts
@@ -165,38 +166,50 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       // Find the post and its associated comments
       const post = await Post.findByPk(postId, {
         include: [
-          { model: Comment, include: User, order: [['created_at', 'ASC']] },
-          User,
+          { model: Comment, include: [{model: User}], order: [['created_at', 'ASC']] },
+          { model: User },
         ],
       });
-      const allUsers = await User.findAll(); // Fetch all users from your database
+  
+      // Convert poster_id to number
+      // const posterIdNumber = Number(post.dataValues.poster_id);
+  
+      // const allUsers = await User.findAll(); // Fetch all users from your database
       // Populate the userMap
       const currentUserId = await req.cookies.userId;
-      const userMap = allUsers.reduce((map, user) => {
-          map[user.user_id] = { username: user.username };
-          return map;
-      }, {});
-  
-      console.log('User Map:', userMap);
-      console.log('Comments:', post.comments);
-      console.log('Post or Comment Data:', post.dataValues.created)
-      // Render the 'post' view with necessary data
+      // const userMap = allUsers.reduce((map, user) => {
+      //   map[user.user_id] = { username: user.username };
+      //     return map;
+      //   }, {});
+      // const posterId = post.poster_id;
+      const plainPost = post.get({ plain: true });
+      console.log("🚀 ~ file: rendered.js:185 ~ router.get ~ plainPost:", plainPost)
+      // const poster = userMap[posterId]; 
+      // // Render the 'post' view with necessary data
+      // if (poster) {
+      //   const posterUsername = poster.username;
+      //   console.log('Poster username:', posterUsername);
+      // } else {
+      //   console.log('Poster not found in user map');
+      // }
       res.render('post', {
-          date: post.dataValues.created_at,
-          userMap: userMap,
+          // date: post.dataValues.created_at,
+          // userMap: userMap,
           currentUser: currentUserId,
-          comments: post.comments, // Make sure post.comments is an array
-          postTitle: post.title,
-          post: post,
-          textContent: post.text_content,
-          postLikes: post.likeys
+          // comments: post.comments, // Make sure post.comments is an array
+          // postTitle: post.title,
+          post: plainPost,
+          // textContent: post.text_content,
+          // postLikes: post.likeys,
+          // posterName: posterUsername, // Pass the converted number to the template
       });
-
-  } catch (error) {
+  
+    } catch (error) {
       console.error('Error:', error);
       res.status(500).send('An error occurred.');
-  }
+    }
   });
+  
   
   
 
@@ -206,7 +219,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
     try {
       const postId = req.params.postId;
       const userId = req.user.user_id;
-      console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
+      // console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
       const commentId = req.query.commentId; // Use query parameter to differentiate post and comment likes
       const post = await Post.findByPk(postId, {
         include: [
@@ -317,6 +330,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
           model: Post,
           include: [
             { model: Comment, order: [['likeys', 'DESC']] }, // Order comments by likes to get top comment
+            { model: User },
             // Include any other necessary associations
           ],
         },

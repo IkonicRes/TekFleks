@@ -9,16 +9,16 @@ const Like = require('./Like');
 
 // Each Topic has many Posts
 Topic.hasMany(Post, { foreignKey: 'topic_id' });
-User.hasMany(Post, { foreignKey: 'user_id' });
+User.hasMany(Post, { foreignKey: 'poster_id' });
 User.hasMany(Comment, { foreignKey: 'user_id' });
 User.hasMany(Like, { foreignKey: 'user_id' });
 
-Post.belongsTo(User, { foreignKey: 'user_id' });
+Post.belongsTo(User, { foreignKey: 'poster_id' });
 Post.belongsTo(Topic, { foreignKey: 'topic_id' });
 Post.hasMany(Comment, { foreignKey: 'post_id' });
 Post.hasMany(Like, { foreignKey: 'post_id', as: 'postLikes' });
 
-Comment.belongsTo(User, { foreignKey: 'user_id' });
+Comment.belongsTo(User, { foreignKey: 'comment_poster_id' });
 Comment.belongsTo(Post, { foreignKey: 'post_id' });
 Comment.hasMany(Like, { foreignKey: 'comment_id' });
 

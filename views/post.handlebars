@@ -1,26 +1,30 @@
 <section class="content sections single-post">
     <article class="single-post">
         <!-- Display the post title -->
-        <h2><q>{{postTitle}}</q></h2>
+        <h2><q>{{post.title}}</q></h2>
         <!-- Display the post content -->
-        <p>{{textContent}}</p>
+        <p>{{post.text_content}}</p>
         <!-- Log the current user to the console with a custom message -->
         {{!-- {{consoleLog 'postLogout:' currentUser}} --}}
         <!-- Check if the current user owns the post or comment -->
-        {{#if (ownsPostOrComment currentUser post.dataValues.user_id)}}
-    
+        {{#if (ownsPostOrComment currentUser post.poster_id)}}
             <!-- Display a delete button for the post -->
             <button class="delete-button" data-id="{{post.post_id}}" data-type="post" target="_self">Delete Post</button>
+            <button class="delete-button" data-id="{{post.post_id}}" data-type="post" target="_self">Update Post</button>
         {{/if}}
+        <input type="hidden" name="post_poster_id" value="{{ number post.poster_id }}">
+        {{consoleLog posterIdNumber}}
         <!-- Display the name of the user who posted the content -->
-        <p>Posted by: {{getUserFromId (number post.dataValues.user_id) posts}}</p>
+        {{!-- {{#async posterName as |posterName|}} --}}
+        <p>Posted by: {{post.user.username}}</p>
+        {{!-- {{/async}} --}}
         <!-- Display the date the user posted the content -->
-        <p>Written on: {{formatDate post.dataValues.created_at}}</p>
+        <p>Written on: {{formatDate post.created_at}}</p>
         <!-- Display the number of likes for the post -->
-        <form action="/posts/{{post.dataValues.post_id}}/like" method="POST">
+        <form action="/posts/{{post.post_id}}/like" method="POST">
         <button class="like-button" type="submit">Like</button>
         </form>
-        <span class="likes">{{post.dataValues.likes}} Likes</span>
+        <span class="likes">{{post.likes}} Likes</span>
           <!-- Display the error message if it exists -->
         {{#if errorMessage}}
             <p class="error-message">{{ errorMessage }}</p>
@@ -32,7 +36,7 @@
                 <!-- Textarea to enter the comment content -->
                 {{!-- {{consoleLog post}} --}}
                 <input type="hidden" name="comment_poster_id" value="{{ currentUser }}">
-                <input type="hidden" name="post_id" value="{{ post.dataValues.post_id }}">
+                <input type="hidden" name="post_id" value="{{ post.post_id }}">
                 <textarea id="comment" name="content" placeholder="Write your comment here"></textarea>
                 <!-- Button to submit the comment -->
                 <div class="add-comment">
@@ -40,28 +44,28 @@
                 </div>
             </form>
             <!-- Iterate over each comment -->
-            {{consoleLog 'Comment Poster ID:' comment.dataValues.comment_poster_id}}
-{{consoleLog 'User Map:' userMap}}
-{{consoleLog 'Comments:' comments}}
+            {{!-- {{consoleLog 'Comment Poster ID:' comment.comment_poster_id}} --}}
+{{!-- {{consoleLog 'User Map:' userMap}} --}}
+{{!-- {{consoleLog 'Comments:' comments}} --}}
             {{!-- {{#with userMap as |outerMap|}} --}}
-                {{#each comments as |comment|}}
+                {{#each post.comments as |comment|}}
                 <article class="comment subsections">
                     <!-- Display the comment content -->
-                    <p>{{comment.dataValues.content}}</p>
+                    <p>{{comment.content}}</p>
                     <!-- Display the username of the user who commented -->
                     {{consoleLog 'Current Username: ' userMap}}
-                    <p>Commented by: {{getUserFromId (number comment.dataValues.comment_poster_id) userMap comments}}</p>
-                    <date>On: {{formatDate comment.dataValues.created_at}}</date>
+                    <p>Commented by: {{comment.user.username}}</p>
+                    <date>On: {{formatDate comment.created_at}}</date>
                     <!-- Check if the comment has any likes -->
                     <!-- Display the number of likes for the post -->
-                    <form action="/posts/{{post.dataValues.post_id}}/like" method="POST">
-                    <input type="hidden" name="comment_id" value="{{comment.dataValues.comment_id}}">
+                    <form action="/posts/{{post.post_id}}/like" method="POST">
+                    <input type="hidden" name="comment_id" value="{{comment.comment_id}}">
                     <button class="like-button" type="submit">Like</button>
                     </form>
                     <span class="likes">{{likes}} Likes</span>
                     {{#if comment.likes}}
                         <!-- Display the number of likes for the comment -->
-                        <p>Likes: {{comment.dataValues.likes}}</p>
+                        <p>Likes: {{comment.likes}}</p>
                     {{/if}}
                     
                 </article>
