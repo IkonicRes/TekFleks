@@ -49,8 +49,12 @@
                 <a href="/logout" class="logout-button">Logout</a>
                 {{else}}
                     {{#unlessTemplate 'login' body}}
+                    {{#unlessTemplate 'signup' body}}
+                    {{#unlessTemplate 'about' body}}
                 <!-- Display the login button if the user is not logged in -->
                     <a href="/login" class="logout-button">Login</a>
+                    {{/unlessTemplate}}
+                    {{/unlessTemplate}}
                     {{/unlessTemplate}}
                 {{/if}}
 

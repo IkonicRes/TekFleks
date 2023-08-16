@@ -445,7 +445,9 @@ router.get('/profile', isAuthenticated, async (req, res) => {
 });
 
   router.get('/about', (req, res) => {
-    res.render('about');
+    res.render('about', {
+      isAuthenticated: req.isAuthenticated(),
+    });
   })
 
 

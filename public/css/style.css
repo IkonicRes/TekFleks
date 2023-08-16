@@ -8,7 +8,7 @@ html {
 }
 
 * {
-    font-size: 1vw;
+    font-size: var(--base-textsize);
     font-family: 'ShareTech';
 }
 
@@ -237,7 +237,7 @@ h4 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
     padding-right: 40vw;
     border-color: var(--main-bkgcolor)
 }
@@ -245,9 +245,12 @@ h4 {
 #post-button {
     width: 20vw;
     height: 3rem;
-    background-color: rgba(0, 200, 255, 0.759);
+    background-color: rgba(13, 158, 255, 0.759);
     border-radius: 20px;
     font-weight: 800;
+    font-size: var(--h4-textsize);
+    color: whitesmoke;
+    text-shadow: var(--alt-b-textshadow);
 }
 
 .sections {
@@ -321,10 +324,11 @@ h4 {
     background-color: var(--main-bkgcolor);
     border: 1px rgba(0, 255, 255, 0.512) solid;
     border-radius: 7px;
+    margin-bottom: .25vh;
 }
 
 .subsections > * {
-    padding: 1vh 1vw 1vh 1vw;
+    padding: 1vh 2vw 1vh 2vw;
 }
 
 
@@ -352,11 +356,81 @@ footer {
     * {
         font-size: 2vw;
     }
+    h1 {
+        font-size: calc(var(--h1-textsize) * 2);
+    }
+    h2 {
+        font-size: calc(var(--h2-textsize) * 2);
+    }
+    h3 {
+        font-size: calc(var(--h3-textsize) * 2);
+    }
+    h4 {
+        font-size: calc(var(--h4-textsize) * 2);
+    }
+    .work-link, .post-link, .post-label {
+        font-size: calc(var(--h4-textsize) * 2);
+    }
+    #login-header, #signup-header {
+        font-size: calc(var(--h2-textsize) * 2);
+    }
+    .error-message {
+        font-size: 1vw;
+    }
+    .navigation *{
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
+    .sidebar a {
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
+    .like-button, .logout-button {
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
+    #post-button {
+        width: 20vw;
+        height: 2.1rem;
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
 }
 /*Small devices (portrait tablets and large phones, 600px and up)*/
 @media only screen and (min-width: 600px) {
     * {
         font-size: 1.75vw;
+    }
+    h1 {
+        font-size: calc(var(--h1-textsize) * 1.75);
+    }
+    h2 {
+        font-size: calc(var(--h2-textsize) * 1.75);
+    }
+    h3 {
+        font-size: calc(var(--h3-textsize) * 1.75);
+    }
+    h4 {
+        font-size: calc(var(--h4-textsize) * 1.75);
+    }
+    .work-link, .post-link, .post-label {
+        font-size: calc(var(--h4-textsize) * 1.75);
+    }
+    #login-header, #signup-header {
+        font-size: calc(var(--h2-textsize) * 1.75);
+    }
+    .error-message {
+        font-size: .75vw;
+    }
+    .navigation *{
+        font-size: calc(var(--h4-textsize) * 1.35);
+    }
+    .sidebar a {
+        font-size: calc(var(--h4-textsize) * 1.35);
+    }
+    .like-button, .logout-button {
+        font-size: calc(var(--h4-textsize) * 1.35);
+    }
+    #post-button {
+        width: 19vw;
+        height: 2.2rem;
+        font-size: calc(var(--h4-textsize) * 1.35);
     }
 }
 /* Medium devices (landscape tablets, 768px and up)*/
@@ -364,16 +438,121 @@ footer {
     * {
         font-size: 1.5vw;
     }
+    h1 {
+        font-size: calc(var(--h1-textsize) * 1.5);
+    }
+    h2 {
+        font-size: calc(var(--h2-textsize) * 1.5);
+    }
+    h3 {
+        font-size: calc(var(--h3-textsize) * 1.5);
+    }
+    h4 {
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
+    .work-link, .post-link, .post-label {
+        font-size: calc(var(--h4-textsize) * 1.5);
+    }
+    #login-header, #signup-header {
+        font-size: calc(var(--h2-textsize) * 1.5);
+    }
+    .error-message {
+        font-size: .75vw;
+    }
+    .navigation *{
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
+    .sidebar a {
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
+    .like-button, .logout-button {
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
+    #post-button {
+        width: 18vw;
+        height: 2.3rem;
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
 }
 /* Large devices (laptops/desktops, 992px and up)*/
 @media only screen and (min-width: 992px) {
     * {
         font-size: 1.25vw;
     }
+    h1 {
+        font-size: calc(var(--h1-textsize) * 1.25);
+    }
+    h2 {
+        font-size: calc(var(--h2-textsize) * 1.25);
+    }
+    h3 {
+        font-size: calc(var(--h3-textsize) * 1.25);
+    }
+    h4 {
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
+    .work-link, .post-link, .post-label {
+        font-size: calc(var(--h4-textsize) * 1.25);
+    }
+    #login-header, #signup-header {
+        font-size: calc(var(--h2-textsize) * 1.25);
+    }
+    .error-message {
+        font-size: .75vw;
+    }
+    .navigation *{
+        font-size: calc(var(--h4-textsize) * 1.15);
+    }
+    .sidebar a {
+        font-size: calc(var(--h4-textsize) * 1.15);
+    }
+    .like-button, .logout-button {
+        font-size: calc(var(--h4-textsize) * 1.15);
+    }
+    #post-button {
+        width: 17vw;
+        height: 2.4rem;
+        font-size: calc(var(--h4-textsize) * 1.15);
+    }
 }
 /* Extra large devices (large laptops and desktops, 1200px and up)*/
 @media only screen and (min-width: 1200px) {
     * {
-        font-size: 1vw;
+        font-size: 1.25vw;
+    }
+    h1 {
+        font-size: var(--h1-textsize);
+    }
+    h2 {
+        font-size: var(--h2-textsize);
+    }
+    h3 {
+        font-size: var(--h3-textsize);
+    }
+    h4 {
+        font-size: var(--h4-textsize);
+    }
+    .work-link, .post-link, .post-label {
+        font-size: var(--h4-textsize);
+    }
+    #login-header, #signup-header {
+        font-size: var(--h2-textsize);
+    }
+    .error-message {
+        font-size: .75vw;
+    }
+    .navigation *{
+        font-size: calc(var(--h4-textsize));
+    }
+    .sidebar a {
+        font-size: calc(var(--h4-textsize));
+    }
+    .like-button, .logout-button {
+        font-size: calc(var(--h4-textsize));
+    }
+    #post-button {
+        width: 16vw;
+        height: 2.5rem;
+        font-size: calc(var(--h4-textsize) * 1);
     }
 }
