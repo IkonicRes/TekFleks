@@ -30,14 +30,17 @@ try {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10); // Hash the password using bcrypt with a salt of 10 rounds
-
+    
     // Create a new user with hashed password
     const newUser = await User.create({
-    username,
-    password: hashedPassword,
-    profile_pic_url: 'https://www.gravatar.com/avatar/default-avatar-image', // Set a default profile picture URL
+      username,
+      password: hashedPassword,
+      profile_pic_url: 'https://www.gravatar.com/avatar/default-avatar-image', // Set a default profile picture URL
     });
 
+    const userId = newUser.user_id; // Get the user's ID from the authenticated user object 
+    console.log(userId)
+    res.cookie('userId', userId); // Set the 'userId' cookie
     // Log in the new user
     req.login(newUser, (err) => {
       if (err) throw err;

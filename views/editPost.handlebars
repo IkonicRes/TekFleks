@@ -12,7 +12,7 @@
         {{consoleLog "sep"}}
         {{#if (ownsPostOrComment currentUser post.poster_id)}}
             <!-- Display a delete button for the post -->
-            <button class="login-button like-button" data-id="{{post.post_id}}" onclick="window.location.href='/posts/{{post.post_id}}'">Cancel Edit</button>
+            <button class="login-button like-button" data-id="{{post.post_id}}" type="button" onclick="window.location.href='/posts/{{post.post_id}}'">Cancel Edit</button>
             <button class="login-button like-button" data-id="{{post.post_id}}" type="submit">Save Edit</button>
             </form>
         {{/if}}

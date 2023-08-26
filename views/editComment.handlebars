@@ -72,7 +72,7 @@
                     <textarea id="editboxSmall" name="text_content">{{{comment.content}}}</textarea>
                         <input type="hidden" name="post_id" value="{{../post.post_id}}">
                         <button class="login-button like-button" data-id="{{../post.post_id}}" type="submit">Save Edit</button>
-                        <button class="login-button like-button" data-id=="{{comment.comment_id}}" onclick="window.location.href='/posts/{{../post.post_id}}#Comment-{{comment.comment_id}}'">Cancel</button>
+                        <button class="login-button like-button" data-id=="{{comment.comment_id}}" type="button" onclick="window.location.href='/posts/{{../post.post_id}}#Comment-{{comment.comment_id}}'">Cancel</button>
                         </form>
                         <div id="modalOverlay" class="modal">
                             <div class="modal-content">

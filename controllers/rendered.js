@@ -224,6 +224,9 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       
     });
     const currentUserId = await req.cookies.userId;
+    if (currentUserId !== post.poster_id){
+      res.redirect('/posts/' + postId);
+    }
     const plainPost = post.get({ plain: true });
     res.render('editPost', { currentUser: currentUserId, post: plainPost});
   })
@@ -259,6 +262,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         ],
         
       });
+      console.log("cookies: ", req.cookies)
       let currentUserId = await req.cookies.userId;
       let plainPost = post.get({ plain: true });
       // console.log("🚀 ~ file: rendered.js:209 ~ router.post ~ userId:", userId)
@@ -266,13 +270,14 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       const allUsers = await User.findAll(); // Fetch all users from your database
       // Populate the userMap
       // Check if the user has already liked the post or comment
+      console.log("feeeeeeeck", currentUserId)
       const existingLike = await Like.findOne({
         where: {
           user_id: currentUserId,
           post_id: postId,
         },
       });
-  
+      
       const likeIncrementData = commentId ? { comment_id: commentId } : { post_id: postId };
       if (existingLike) {
         const errorMessage = 'You have already liked this.';

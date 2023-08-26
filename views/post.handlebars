@@ -23,7 +23,7 @@
                 <form action="/api/posts/{{post.post_id}}/del" method="POST">
                 <button id="confirmDeletePostButton" class="login-button like-button" data-id="{{post.post_id}}" target="_parent">Confirm Delete</button>
                 </form>
-                <button id="cancelDeletePostButton" class="login-button like-button" onclick="hideModal()">Cancel</button>
+                <button id="cancelDeletePostButton" class="login-button like-button" onclick="window.location.href='/posts/{{post.post_id}}">Cancel</button>
             </div>
         </div>
         {{/if}}

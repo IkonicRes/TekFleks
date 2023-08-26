@@ -92,7 +92,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.post('/:id/like',  async (req, res) => {
+router.post('/:id/like', isAuthenticated,  async (req, res) => {
   try {
     let comment_Id = req.params.id;
     let comment = await Comment.findByPk(comment_Id, {
