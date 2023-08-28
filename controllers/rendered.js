@@ -224,7 +224,8 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       
     });
     const currentUserId = await req.cookies.userId;
-    if (currentUserId !== post.poster_id){
+    console.log("I am so close: ", currentUserId, post.poster_id)
+    if (currentUserId != post.poster_id){
       res.redirect('/posts/' + postId);
     }
     const plainPost = post.get({ plain: true });
