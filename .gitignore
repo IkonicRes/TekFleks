@@ -3,3 +3,5 @@
 .DS_Store
 /package-lock.json
 /scrap
+# Local Netlify folder
+.netlify
