@@ -79,7 +79,7 @@ router.get('/profile', isAuthenticated, async (req, res) => {
           { model: Topic },
           { model: User },
         ],
-        order: Sequelize.literal('ASC'), // Fetch random posts
+        order: [Sequelize.literal('post_id'), 'RAND'], // Fetch random posts
         limit: 10, // Limit to a certain number of posts
       });
       let result;
