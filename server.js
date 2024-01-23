@@ -1,8 +1,6 @@
 // Import the express library
 const express = require('express');
 
-const serverless = require('serverless-http')
-
 // Import the path library
 const path = require('path');
 
@@ -88,8 +86,7 @@ app.use(passport.session());
 app.use(authRoutes);
 
 // Use routes middleware for other routes
-// app.use(routes);
-app.use('/.netlify/functions/server', routes);
+app.use(routes);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -100,22 +97,17 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
-// hbars.handlebars.registerHelper('async', async function(context, options) {
-//   const value = await context;
-//   return new hbars.handlebars.SafeString(value);
-// });
+hbars.handlebars.registerHelper('async', async function(context, options) {
+  const value = await context;
+  return new hbars.handlebars.SafeString(value);
+});
 
-// // Sync the sequelize models to the database and start the server
-// sequelize.sync({force: false}).then(() => {
-//   axios.defaults.baseURL = `127.0.0.1:${PORT}`;
-//   // app.listen(PORT, () => {
-//   //   console.log(`App listening on port !`);
-//   // });
-// }).catch((err) => {
-//   console.log("Unable to connect to database: ", err);
-// });
-
-
-
-module.exports = app;
-module.exports.handler = serverless(app);
+// Sync the sequelize models to the database and start the server
+sequelize.sync({force: false}).then(() => {
+  axios.defaults.baseURL = `127.0.0.1:${PORT}`;
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}!`);
+  });
+}).catch((err) => {
+  console.log("Unable to connect to database: ", err);
+});
