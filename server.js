@@ -1,6 +1,8 @@
 // Import the express library
 const express = require('express');
 
+const serverless = require('serverless-http')
+
 // Import the path library
 const path = require('path');
 
@@ -17,7 +19,7 @@ const authRoutes = require('./controllers/auth');
 const flash = require('connect-flash');
 
 // Set the port from the environment or use 3001
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5173;
 
 // Import the axios library
 const axios = require('axios');
@@ -104,10 +106,13 @@ app.use((err, req, res, next) => {
 
 // Sync the sequelize models to the database and start the server
 sequelize.sync({force: false}).then(() => {
-  axios.defaults.baseURL = '127.0.0.1:3001';
-  app.listen(PORT, () => {
-    console.log(`App listening on port !`);
-  });
+  axios.defaults.baseURL = `127.0.0.1:${PORT}`;
+  // app.listen(PORT, () => {
+  //   console.log(`App listening on port !`);
+  // });
 }).catch((err) => {
   console.log("Unable to connect to database: ", err);
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);

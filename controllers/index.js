@@ -6,7 +6,7 @@ const rendRouter = require('./rendered');
 const authRoutes = require('./auth');
 
 // Use the '/api' route and handle it with apiRoutes
-router.use('/api', apiRoutes);
+router.use('/.netlify/functions/server/api', apiRoutes);
 
 // Use the root route '/' and handle it with rendRouter
 router.use('/', rendRouter);
