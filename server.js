@@ -105,15 +105,15 @@ app.use((err, req, res, next) => {
 //   return new hbars.handlebars.SafeString(value);
 // });
 
-// Sync the sequelize models to the database and start the server
-sequelize.sync({force: false}).then(() => {
-  axios.defaults.baseURL = `127.0.0.1:${PORT}`;
-  // app.listen(PORT, () => {
-  //   console.log(`App listening on port !`);
-  // });
-}).catch((err) => {
-  console.log("Unable to connect to database: ", err);
-});
+// // Sync the sequelize models to the database and start the server
+// sequelize.sync({force: false}).then(() => {
+//   axios.defaults.baseURL = `127.0.0.1:${PORT}`;
+//   // app.listen(PORT, () => {
+//   //   console.log(`App listening on port !`);
+//   // });
+// }).catch((err) => {
+//   console.log("Unable to connect to database: ", err);
+// });
 
 
 
