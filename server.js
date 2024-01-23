@@ -88,7 +88,8 @@ app.use(passport.session());
 app.use(authRoutes);
 
 // Use routes middleware for other routes
-app.use(routes);
+// app.use(routes);
+app.use('/.netlify/functions/server', routes);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -113,6 +114,8 @@ sequelize.sync({force: false}).then(() => {
 }).catch((err) => {
   console.log("Unable to connect to database: ", err);
 });
+
+
 
 module.exports = app;
 module.exports.handler = serverless(app);
